@@ -1,0 +1,16 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.13/Modules/BasicConfigVersion-SameMajorVersion.cmake.in
+C:/Program Files/CMake/share/cmake-3.13/Modules/CMakePackageConfigHelpers.cmake
+C:/Program Files/CMake/share/cmake-3.13/Modules/CheckIncludeFile.c.in
+C:/Program Files/CMake/share/cmake-3.13/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.13/Modules/CheckLibraryExists.cmake
+C:/Program Files/CMake/share/cmake-3.13/Modules/CheckSymbolExists.cmake
+C:/Program Files/CMake/share/cmake-3.13/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.13/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.13/Modules/FindThreads.cmake
+C:/Program Files/CMake/share/cmake-3.13/Modules/WriteBasicConfigVersionFile.cmake
+C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/CMake/modules/FindVulkan.cmake
+C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/CMakeLists.txt
+C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/glfw3.pc.in
+C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/glfw3Config.cmake.in
+C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/glfw_config.h.in

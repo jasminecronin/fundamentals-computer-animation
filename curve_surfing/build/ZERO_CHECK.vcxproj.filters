@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\CMakeFiles\e168715d15a4a0633ae1391544a5d00f\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{8F3F0196-9B0F-35C8-8E6E-7BEE6E535E3B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
