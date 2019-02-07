@@ -59,6 +59,9 @@ struct RenderableMesh {
   GLuint verticesCount = 0;
   GLuint indicesCount = 0;
   math::Mat4f modelMatrix = math::identity();
+  // keep track of position here?
+  // initialize a speed here as well, starts out as a constant
+  // perhaps define the lifting speed as a constant elsewhere
 };
 
 // Data needed rendering for curve
@@ -74,10 +77,10 @@ openGL::RenderableMesh g_meshData;
 openGL::RenderableLine g_curveData;
 
 // Curve geometry for simulation
-std::string g_curveFilePath = "./curves/curve.obj";
+std::string g_curveFilePath = "./curves/coaster.obj";
 // std::string g_curveFilePath = "";
 math::geometry::Curve g_curve;
-int32_t g_numberOfSubdivisions = 0;
+int32_t g_numberOfSubdivisions = 4; // Starting number of subdivisions to smooth out the curve
 
 // Only one camera, so only one veiw and perspective matrix are needed.
 math::Mat4f g_V;
@@ -104,6 +107,9 @@ int FB_WIDTH = 800, FB_HEIGHT = 600;
 float WIN_FOV = 50.f;
 float WIN_NEAR = 0.01f;
 float WIN_FAR = 100.f;
+
+// define coaster lifting speed as a constant here?
+// define also a deltaT
 
 //==================== FUNCTION DECLARATIONS ====================//
 void displayFunc();
@@ -172,20 +178,46 @@ void displayFunc() {
   glDrawArrays(GL_LINE_LOOP, 0, g_curveData.verticesCount);
 }
 
+// shouldn't need to change this too much, perhaps adjust what position gets passed
+// to the modelMatrix
 void animate(int vertexID) {
   using namespace openGL;
-  math::Vec3f pos = g_curve[vertexID];
+  math::Vec3f pos = g_curve[vertexID]; // g_curve is our points collection
   g_meshData.modelMatrix = TranslateMatrix(pos) * UniformScaleMatrix(0.1f);
 }
 
+// This is where we change the speed/animation of the bead
 void oncePerFrame() {
-  static uint32_t curveVertexID = 0;
+  static uint32_t curveVertexID = 0; // This is our i
+  // calculate a deltaS from current cart speed and deltaT
 
+  // here we need to calculate position use the arc length parameterization
+  // pass an index to the animate function, but then animate needs to determine position between points
+  // since it's not guaranteed to land exactly on an index
+  // perhaps instead calculate the position here with the algorithm then just pass position
+  // to animate, which will give it to the model matrix?
   curveVertexID++;
   if (curveVertexID >= g_curve.pointCount())
-    curveVertexID = 0;
+    curveVertexID = 0; // We will still need a wrap around consideration
   animate(curveVertexID);
 }
+
+// Arc length parameterization pseudocode
+// must define a deltaS beforehand
+// Requires a speed calculation later on for the gravity field portion?
+// Start by definining a constant speed, calculate deltaS from that
+// Then we can update the speed later when we get past the lifting portion
+// function ArcLengthParameterization(g_meshData.position, curveVertexID, g_curve, deltaS)
+//	if lengthOf(P_i+1 - beadPosition) > deltaS
+//		nextBeadPosition = beadPosition + deltaS * ((P_i+1 - beadPosition)/(lengthOf(P_i+1 - beadPosition)))
+//		return nextBeadPosition
+//	else
+//		deltaS' = lengthOf(P_i+1 - beadPosition)
+//		i = i + 1
+//		while deltaS' + lengthOf(P_i+1 - P_i) < deltaS
+//			deltaS' = deltaS' + lengthOf(P_i+1 - P_i)
+//			i = i + 1
+//		return (deltaS - deltaS') * ((P_i+1 - P_i)/lengthOf(P_i+1 - P_i))
 
 bool loadMeshGeometryToGPU() {
   std::vector<math::Vec3f> verts;
@@ -344,6 +376,8 @@ bool init() {
   // glEnable(GL_MULTISAMPLE);
   glPointSize(50);
 
+  
+
   // SETUP SHADERS, BUFFERS, VAOs
 
   if (!generateIDs())
@@ -357,6 +391,8 @@ bool init() {
   if (!loadCurveGeometryToGPU(g_numberOfSubdivisions)) {
     return false;
   }
+
+  // initialize starting position to first point in curve
 
   resetCamera();
 
@@ -532,7 +568,8 @@ void windowKeyFunc(GLFWwindow *window, int key, int scancode, int action,
   case GLFW_KEY_SPACE:
     g_play = set ? !g_play : g_play;
     break;
-  case GLFW_KEY_T:
+	// Controls to subdivide the curve in real time. Chose to specify the number of subdivisions at runtime instead.
+  /*case GLFW_KEY_T:
     if (set) {
       if (--g_numberOfSubdivisions < 0)
         g_numberOfSubdivisions = 0;
@@ -544,7 +581,7 @@ void windowKeyFunc(GLFWwindow *window, int key, int scancode, int action,
       ++g_numberOfSubdivisions;
       loadCurveGeometryToGPU(g_numberOfSubdivisions);
     }
-    break;
+    break;*/
   case GLFW_KEY_R:
     if (mods == GLFW_MOD_CONTROL)
       g_play = true;
