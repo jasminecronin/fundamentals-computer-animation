@@ -108,11 +108,11 @@ float WIN_FOV = 50.f;
 float WIN_NEAR = 0.01f;
 float WIN_FAR = 100.f;
 
-float liftSpeed = 1.f; // Constant speed for lift portion of the coaster
+float liftSpeed = 0.6f; // Constant speed for lift portion of the coaster
 float dt = 1.0f / 60.0f; // delta T for speed calculation
 std::string coasterPhase = "lift"; // State tracker for which part of the coaster we're in
 int curveIndex = 0;
-float gravity = 5.f;
+float gravity = 4.f;
 float maxHeight;
 float decelerationLength = 0.f;
 float decelerationSpeed = 0.f;
@@ -192,11 +192,10 @@ void animate(math::Vec3f nextPosition) {
 }
 
 void oncePerFrame() {
-  if (coasterPhase.compare("lift") == 0) { // We are in lifting phase
+  if (coasterPhase.compare("lift") == 0) { 
 	  if (g_meshData.currentPosition.m_y - g_meshData.previousPosition.m_y < 0) {
 		  coasterPhase = "freefall";
 		  maxHeight = g_meshData.previousPosition.m_y;
-		  //g_meshData.currentSpeed = 5.f; // probably delete this
 	  }
   }
   if (coasterPhase.compare("freefall") == 0) {
