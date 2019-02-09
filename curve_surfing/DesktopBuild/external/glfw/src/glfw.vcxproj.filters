@@ -54,7 +54,7 @@
     <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\mappings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\glfw_config.h">
+    <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\glfw_config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include\GLFW\glfw3.h">
@@ -84,10 +84,10 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{72A9DE44-4DED-3A0E-885B-82BE5599BB7F}</UniqueIdentifier>
+      <UniqueIdentifier>{742BA9BE-7568-3CB3-BD7B-9E5A311A0B98}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{7CC1AF62-F65E-30A1-86F2-A4377CD8782A}</UniqueIdentifier>
+      <UniqueIdentifier>{14FD810D-DE04-3A71-87DB-196E3C142124}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

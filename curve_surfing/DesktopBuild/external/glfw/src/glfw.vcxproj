@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B8C85B36-848E-3EAE-A142-96E4AF95ED1A}</ProjectGuid>
+    <ProjectGuid>{AAD5EC83-7FEB-31F8-9186-685CF8A9237D}</ProjectGuid>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
@@ -56,26 +56,26 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">glfw.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">glfw3</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">glfw.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">glfw3</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">glfw.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">glfw3</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">glfw.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">glfw3</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsC</CompileAs>
@@ -93,10 +93,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_GLFW_USE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
       <ExceptionHandling>
@@ -127,10 +127,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_GLFW_USE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -143,7 +143,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
       <ExceptionHandling>
@@ -161,10 +161,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_GLFW_USE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -177,7 +177,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -194,10 +194,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_GLFW_USE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -212,7 +212,7 @@
     <CustomBuild Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing" "-BC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/build" --check-stamp-file "C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/build/external/glfw/src/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing" "-BC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild" --check-stamp-file "C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/external/glfw/src/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -221,11 +221,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/CMakeLists.txt;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing" "-BC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/build" --check-stamp-file "C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/build/external/glfw/src/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing" "-BC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild" --check-stamp-file "C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/external/glfw/src/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -234,11 +234,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/CMakeLists.txt;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing" "-BC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/build" --check-stamp-file "C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/build/external/glfw/src/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing" "-BC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild" --check-stamp-file "C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/external/glfw/src/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -247,11 +247,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/CMakeLists.txt;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing" "-BC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/build" --check-stamp-file "C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/build/external/glfw/src/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing" "-BC:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild" --check-stamp-file "C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/external/glfw/src/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -260,7 +260,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/external/glfw/src/CMakeLists.txt;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt;C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
@@ -282,7 +282,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\osmesa_context.c" />
     <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\internal.h" />
     <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\mappings.h" />
-    <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\external\glfw\src\glfw_config.h" />
+    <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\external\glfw\src\glfw_config.h" />
     <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include\GLFW\glfw3.h" />
     <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\include\GLFW\glfw3native.h" />
     <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\win32_platform.h" />
@@ -292,8 +292,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\external\glfw\src\osmesa_context.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\build\ZERO_CHECK.vcxproj">
-      <Project>{3D110A82-EB57-3575-A7D5-C5CE992D0A3A}</Project>
+    <ProjectReference Include="C:\Users\roebu\Desktop\Assignments\University of Calgary\CPSC 587\fundamentals-computer-animation\curve_surfing\DesktopBuild\ZERO_CHECK.vcxproj">
+      <Project>{969BFF4B-E099-3B33-A483-8017C6DB6CCF}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

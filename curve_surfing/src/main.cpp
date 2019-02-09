@@ -60,7 +60,7 @@ struct RenderableMesh {
   GLuint indicesCount = 0;
   math::Mat4f modelMatrix = math::identity();
   math::Vec3f currentPosition;
-  float currentSpeed = liftSpeed; // Starting speed for the lifting portion
+  float currentSpeed; // Starting speed for the lifting portion
 };
 
 // Data needed rendering for curve
@@ -182,8 +182,10 @@ void displayFunc() {
 // to the modelMatrix
 void animate(int vertexID) {
   using namespace openGL;
-  g_meshData.currentPosition = g_curve[vertexID]; // g_curve is our points collection
-  g_meshData.modelMatrix = TranslateMatrix(g_meshData.currentPosition) * UniformScaleMatrix(0.1f);
+
+
+  //g_meshData.currentPosition = g_curve[vertexID]; // g_curve is our points collection
+  //g_meshData.modelMatrix = TranslateMatrix(g_meshData.currentPosition) * UniformScaleMatrix(0.1f);
 }
 
 // This is where we change the speed/animation of the bead
@@ -408,6 +410,7 @@ bool init() {
   }
 
   g_meshData.currentPosition = g_curve[0]; // Initialize cart position to first point on curve
+  g_meshData.currentSpeed = liftSpeed;
 
   resetCamera();
 

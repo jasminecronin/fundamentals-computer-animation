@@ -51,12 +51,14 @@ set(SOURCES
 set(RESOURCE_FILES
     resources/curves/curve.txt
     resources/curves/curve.obj
+    resources/curves/coaster.obj
     resources/shaders/basic_vs.glsl
     resources/shaders/basic_fs.glsl
     )
 
 configure_file(resources/curves/curve.txt curves/curve.txt COPYONLY)
 configure_file(resources/curves/curve.obj curves/curve.obj COPYONLY)
+configure_file(resources/curves/coaster.obj curves/coaster.obj COPYONLY)
 configure_file(resources/shaders/basic_fs.glsl shaders/basic_fs.glsl COPYONLY)
 configure_file(resources/shaders/basic_vs.glsl shaders/basic_vs.glsl COPYONLY)
 
