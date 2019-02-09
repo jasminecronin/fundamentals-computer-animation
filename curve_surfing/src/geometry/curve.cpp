@@ -59,6 +59,24 @@ float length(Curve const &curve) {
   return l;
 }
 
+float distanceFromEnd(Curve const &curve, int curveIndex, Vec3f position) {
+	float l = 0.f;
+	int numLineSegments = curve.pointCount() - 1;
+
+	for (int i = curveIndex; i < numLineSegments; ++i) {
+		l += distance(curve[i], curve[i + 1]);
+	}
+	
+	l -= distance(curve[curveIndex], position);
+
+	if (curve.isClosed()) // do wrap around segment
+	{
+		l += distance(curve.front(), curve.back());
+	}
+
+	return l;
+}
+
 Curve cubicSubdivideCurve(Curve curve, int numberOfSubdivisionSteps) {
   for (int iter = 0; iter < numberOfSubdivisionSteps; ++iter) {
     curve = repeatedAveraging(curve, 2);

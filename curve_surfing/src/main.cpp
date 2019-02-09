@@ -60,6 +60,7 @@ struct RenderableMesh {
   GLuint indicesCount = 0;
   math::Mat4f modelMatrix = math::identity();
   math::Vec3f currentPosition;
+  math::Vec3f previousPosition;
   float currentSpeed; // Starting speed for the lifting portion
 };
 
@@ -107,9 +108,14 @@ float WIN_FOV = 50.f;
 float WIN_NEAR = 0.01f;
 float WIN_FAR = 100.f;
 
-float liftSpeed = 0.01f; // Constant speed for lift portion of the coaster
+float liftSpeed = 1.f; // Constant speed for lift portion of the coaster
 float dt = 1.0f / 60.0f; // delta T for speed calculation
 std::string coasterPhase = "lift"; // State tracker for which part of the coaster we're in
+int curveIndex = 0;
+float gravity = 5.f;
+float maxHeight;
+float decelerationLength = 0.f;
+float decelerationSpeed = 0.f;
 
 //==================== FUNCTION DECLARATIONS ====================//
 void displayFunc();
@@ -137,8 +143,8 @@ void windowMouseButtonFunc(GLFWwindow *window, int button, int action,
 void windowMouseMotionFunc(GLFWwindow *window, double x, double y);
 void windowKeyFunc(GLFWwindow *window, int key, int scancode, int action,
                    int mods);
-void animate(int t);
-void simulationStep(float deltaS, int i);
+void animate(math::Vec3f nextPosition);
+void simulationStep(float deltaS);
 void moveCamera();
 void resetCamera();
 
@@ -178,63 +184,65 @@ void displayFunc() {
   glDrawArrays(GL_LINE_LOOP, 0, g_curveData.verticesCount);
 }
 
-// shouldn't need to change this too much, perhaps adjust what position gets passed
-// to the modelMatrix
-void animate(int vertexID) {
+void animate(math::Vec3f nextPosition) {
   using namespace openGL;
 
-
-  //g_meshData.currentPosition = g_curve[vertexID]; // g_curve is our points collection
-  //g_meshData.modelMatrix = TranslateMatrix(g_meshData.currentPosition) * UniformScaleMatrix(0.1f);
+  g_meshData.currentPosition = nextPosition;
+  g_meshData.modelMatrix = TranslateMatrix(g_meshData.currentPosition) * UniformScaleMatrix(0.1f);
 }
 
-// This is where we change the speed/animation of the bead
 void oncePerFrame() {
-  static uint32_t curveVertexID = 0; // This is our i
-  // if bead ends up between vertices, the curveVertexID needs to be the previous vertex
-
-  // will need to adjust current speed in real time here probably
+  if (coasterPhase.compare("lift") == 0) { // We are in lifting phase
+	  if (g_meshData.currentPosition.m_y - g_meshData.previousPosition.m_y < 0) {
+		  coasterPhase = "freefall";
+		  maxHeight = g_meshData.previousPosition.m_y;
+		  //g_meshData.currentSpeed = 5.f; // probably delete this
+	  }
+  }
+  if (coasterPhase.compare("freefall") == 0) {
+	  g_meshData.currentSpeed = sqrt(2 * gravity * (maxHeight - g_meshData.currentPosition.m_y));
+	  if (curveIndex >= g_curve.pointCount() * 0.9f) {
+		  coasterPhase = "deceleration";
+		  decelerationSpeed = g_meshData.currentSpeed;
+	  }
+  }
+  if (coasterPhase.compare("deceleration") == 0) {
+	  float distanceLeft = distanceFromEnd(g_curve, curveIndex, g_meshData.currentPosition);
+	  g_meshData.currentSpeed = decelerationSpeed * (distanceLeft / decelerationLength);
+	  if (curveIndex == g_curve.pointCount() - 2) {
+		  coasterPhase = "lift";
+		  g_meshData.currentSpeed = liftSpeed;
+	  }
+  }
 
   float ds = g_meshData.currentSpeed * dt;
-  simulationStep(ds, curveVertexID);
+  simulationStep(ds);
 
-  //if (coasterPhase.compare("lift") == 0) { // We are in lifting phase
-  //	This is where I want to detect the state change from 'lift' to 'freefall'
-  //	once y values starts decreasing, change state to freefall
-  //}
-  // Then will need to calculate speed based on height, and calculate deltaS that way
-  // Same for deceleration phase
-
-   //curveVertexID++;
-  //if (curveVertexID >= g_curve.pointCount())
-  //  curveVertexID = 0; // We will still need a wrap around consideration
-  //animate(curveVertexID);
 }
 
-void simulationStep(float deltaS, int i) { 
-	// if (distance between currentPosition and curve[i+1] > deltaS) {
-	//		nextPosition = currentPosition + (deltaS * ((curve[i+1] - currentPosition) / (distance(curve[i+1] - currentPosition)));
-	//		return nextPosition; // instead of return call, pass to animate
-	// NOTE: curveVertexID is static, so we do not need to return it. We can just update it
-	// else // distance to next vertex is smaller than deltaS, so we need to add the distance to deltaPrime and go to the next vertex
-	// pass an index to the animate function, but then animate needs to determine position between points?
-	// since it's not guaranteed to land exactly on an index
-	// perhaps instead calculate the position here with the algorithm then just pass position
-	// to animate, which will give it to the model matrix?
-}
+void simulationStep(float deltaS) { 
+	g_meshData.previousPosition = g_meshData.currentPosition;
+	math::Vec3f nextPosition;
+	float deltaSPrime = 0.f;
 
-// Arc length parameterization pseudocode
-// function ArcLengthParameterization(g_meshData.currentPosition, curveVertexID, g_curve, deltaS)
-//	if lengthOf(P_i+1 - beadPosition) > deltaS // distance to next vertex is greater than deltaS, so bead will end up between vertices
-//		nextBeadPosition = beadPosition + deltaS * ((P_i+1 - beadPosition)/(lengthOf(P_i+1 - beadPosition)))
-//		return nextBeadPosition
-//	else
-//		deltaS' = lengthOf(P_i+1 - beadPosition)
-//		i = i + 1
-//		while deltaS' + lengthOf(P_i+1 - P_i) < deltaS
-//			deltaS' = deltaS' + lengthOf(P_i+1 - P_i)
-//			i = i + 1
-//		return (deltaS - deltaS') * ((P_i+1 - P_i)/lengthOf(P_i+1 - P_i))
+	// TODO Need to fix the vertex out of bounds error. Wherever curve[icurveIndex + 1] is called, need to account for when curve[i + 1] = points.size
+	if (distance(g_curve[curveIndex + 1], g_meshData.currentPosition) > deltaS) { // point lies somewhere before next vertex
+		nextPosition = g_meshData.currentPosition + (deltaS * ((g_curve[curveIndex + 1]) - g_meshData.currentPosition) / (distance(g_curve[curveIndex + 1], g_meshData.currentPosition)));
+		animate(nextPosition);
+	}
+	else {
+		deltaSPrime = distance(g_curve[curveIndex + 1], g_meshData.currentPosition);
+		curveIndex++;
+		if (curveIndex >= g_curve.pointCount()) curveIndex = 0;
+		while ((deltaSPrime + distance(g_curve[curveIndex + 1], g_curve[curveIndex])) < deltaS) {
+			deltaSPrime += distance(g_curve[curveIndex + 1], g_curve[curveIndex]);
+			curveIndex++;
+			if (curveIndex >= g_curve.pointCount()) curveIndex = 0;
+		}
+		nextPosition = g_curve[curveIndex] + (deltaS - deltaSPrime) * ((g_curve[curveIndex + 1] - g_curve[curveIndex]) / distance(g_curve[curveIndex + 1], g_curve[curveIndex])); // This vector is normalized, we need to shift it
+		animate(nextPosition);
+	}
+}
 
 bool loadMeshGeometryToGPU() {
   std::vector<math::Vec3f> verts;
@@ -409,8 +417,9 @@ bool init() {
     return false;
   }
 
-  g_meshData.currentPosition = g_curve[0]; // Initialize cart position to first point on curve
+  g_meshData.currentPosition = g_meshData.previousPosition = g_curve[0]; // Initialize cart position to first point on curve
   g_meshData.currentSpeed = liftSpeed;
+  decelerationLength = length(g_curve) * 0.1f;
 
   resetCamera();
 
@@ -680,7 +689,7 @@ void moveCamera() {
 }
 
 void resetCamera() {
-  g_camera = openGL::scene::Camera(math::Vec3f{0.f, 0.75f, 5.f},
+  g_camera = openGL::scene::Camera(math::Vec3f{.4f, 0.75f, 5.f},
                                    math::Vec3f{0.f, 0.f, -1.f},
                                    math::Vec3f{0.f, 1.f, 0.f});
 }

@@ -39,6 +39,7 @@ private:
 
 // Free functions
 float length(Curve const &curve);
+float distanceFromEnd(Curve const &curve, int curveIndex, Vec3f position);
 
 Curve cubicSubdivideCurve(Curve curve, int numberOfSubdivisionSteps);
 Curve repeatedAveraging(Curve const &curve, int numberOfAveragingSteps);
