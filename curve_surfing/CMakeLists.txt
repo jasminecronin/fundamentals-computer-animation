@@ -54,6 +54,7 @@ set(RESOURCE_FILES
     resources/curves/coaster.obj
     resources/shaders/basic_vs.glsl
     resources/shaders/basic_fs.glsl
+    resources/meshes/cart.obj
     )
 
 configure_file(resources/curves/curve.txt curves/curve.txt COPYONLY)
@@ -61,6 +62,7 @@ configure_file(resources/curves/curve.obj curves/curve.obj COPYONLY)
 configure_file(resources/curves/coaster.obj curves/coaster.obj COPYONLY)
 configure_file(resources/shaders/basic_fs.glsl shaders/basic_fs.glsl COPYONLY)
 configure_file(resources/shaders/basic_vs.glsl shaders/basic_vs.glsl COPYONLY)
+configure_file(resources/meshes/cart.obj meshes/cart.obj COPYONLY)
 
 #[ Executable ]
 add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})

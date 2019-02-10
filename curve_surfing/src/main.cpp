@@ -225,22 +225,34 @@ void simulationStep(float deltaS) {
 	float deltaSPrime = 0.f;
 
 	// TODO Need to fix the vertex out of bounds error. Wherever curve[icurveIndex + 1] is called, need to account for when curve[i + 1] = points.size
-	if (distance(g_curve[curveIndex + 1], g_meshData.currentPosition) > deltaS) { // point lies somewhere before next vertex
-		nextPosition = g_meshData.currentPosition + (deltaS * ((g_curve[curveIndex + 1]) - g_meshData.currentPosition) / (distance(g_curve[curveIndex + 1], g_meshData.currentPosition)));
+	
+	int nextIndex = curveIndex + 1;
+	if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
+
+	if (distance(g_curve[nextIndex], g_meshData.currentPosition) > deltaS) { // point lies somewhere before next vertex
+		nextPosition = g_meshData.currentPosition + (deltaS * ((g_curve[nextIndex]) - g_meshData.currentPosition) / (distance(g_curve[nextIndex], g_meshData.currentPosition)));
 		animate(nextPosition);
 	}
 	else {
-		deltaSPrime = distance(g_curve[curveIndex + 1], g_meshData.currentPosition);
+		deltaSPrime = distance(g_curve[nextIndex], g_meshData.currentPosition);
+
 		curveIndex++;
 		if (curveIndex >= g_curve.pointCount()) curveIndex = 0;
-		while ((deltaSPrime + distance(g_curve[curveIndex + 1], g_curve[curveIndex])) < deltaS) {
-			deltaSPrime += distance(g_curve[curveIndex + 1], g_curve[curveIndex]);
+		nextIndex = curveIndex + 1;
+		if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
+
+		while ((deltaSPrime + distance(g_curve[nextIndex], g_curve[curveIndex])) < deltaS) {
+			deltaSPrime += distance(g_curve[nextIndex], g_curve[curveIndex]);
+
 			curveIndex++;
 			if (curveIndex >= g_curve.pointCount()) curveIndex = 0;
+			nextIndex = curveIndex + 1;
+			if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
 		}
-		nextPosition = g_curve[curveIndex] + (deltaS - deltaSPrime) * ((g_curve[curveIndex + 1] - g_curve[curveIndex]) / distance(g_curve[curveIndex + 1], g_curve[curveIndex])); // This vector is normalized, we need to shift it
+		nextPosition = g_curve[curveIndex] + (deltaS - deltaSPrime) * ((g_curve[nextIndex] - g_curve[curveIndex]) / distance(g_curve[nextIndex], g_curve[curveIndex])); // This vector is normalized, we need to shift it
 		animate(nextPosition);
 	}
+
 }
 
 bool loadMeshGeometryToGPU() {
