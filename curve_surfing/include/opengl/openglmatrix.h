@@ -10,6 +10,7 @@ math::Mat4f ScaleMatrix(float x, float y, float z);
 math::Mat4f ScaleMatrix(math::Vec3f const &scale);
 math::Mat4f TranslateMatrix(float x, float y, float z);
 math::Mat4f TranslateMatrix(math::Vec3f const &pos);
+math::Mat4f TransformMatrix(math::Vec3f const &norm, math::Vec3f const &tangent, math::Vec3f const &horizontal, math::Vec3f const &pos);
 math::Mat4f RotateAboutXMatrix(float angleDeg);
 math::Mat4f RotateAboutYMatrix(float angleDeg);
 math::Mat4f RotateAboutZMatrix(float angleDeg);

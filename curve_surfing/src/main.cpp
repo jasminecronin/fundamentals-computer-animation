@@ -64,6 +64,7 @@ struct RenderableMesh {
   GLuint indicesCount = 0;
   GLuint drawMode = GL_TRIANGLES;
   math::Mat4f modelMatrix = math::identity();
+  math::Vec3f nextPosition;
   math::Vec3f currentPosition;
   math::Vec3f previousPosition;
   float currentSpeed; // Starting speed for the lifting portion
@@ -115,7 +116,7 @@ float WIN_NEAR = 0.01f;
 float WIN_FAR = 100.f;
 
 float liftSpeed = 0.6f; // Constant speed for lift portion of the coaster
-float dt = 1.0f / 60.0f; // delta T for speed calculation
+float dt = 0.5f / 60.0f; // delta T for speed calculation
 std::string coasterPhase = "lift"; // State tracker for which part of the coaster we're in
 int curveIndex = 0;
 float gravity = 4.f;
@@ -150,7 +151,7 @@ void windowMouseButtonFunc(GLFWwindow *window, int button, int action,
 void windowMouseMotionFunc(GLFWwindow *window, double x, double y);
 void windowKeyFunc(GLFWwindow *window, int key, int scancode, int action,
                    int mods);
-void animate(math::Vec3f nextPosition);
+void animate();
 void simulationStep(float deltaS);
 void moveCamera();
 void resetCamera();
@@ -191,14 +192,30 @@ void displayFunc() {
   glDrawArrays(GL_LINE_LOOP, 0, g_curveData.verticesCount);
 }
 
-void animate(math::Vec3f nextPosition) {
+void animate() {
   using namespace openGL;
 
-  g_meshData.currentPosition = nextPosition;
-  g_meshData.modelMatrix = TranslateMatrix(g_meshData.currentPosition) * UniformScaleMatrix(0.1f); // Should probably define a new transformation matrix that takes in 3 vectors and a position
-  // Here we need to adjust the model matrix
-  // Note*** will have to keep track of a current t as well as a deltat. do we? maybe not
+  math::Vec3f acceleration = (g_meshData.nextPosition - (2 * g_meshData.currentPosition) + g_meshData.previousPosition) / (dt * dt);
+
+  math::Vec3f norm = (acceleration + math::Vec3f(0.f, gravity, 0.f));
+  norm = normalized(norm);
+  math::Vec3f tangent = (g_meshData.nextPosition - g_meshData.currentPosition) / dt;
+  //std::cout << (g_meshData.nextPosition - g_meshData.currentPosition).m_x << " " << (g_meshData.nextPosition - g_meshData.currentPosition).m_y << " " << (g_meshData.nextPosition - g_meshData.currentPosition).m_z << std::endl;
+  //std::cout << g_meshData.nextPosition.m_x << " " << g_meshData.nextPosition.m_y << " " << g_meshData.nextPosition.m_z << std::endl;
+  //std::cout << g_meshData.currentPosition.m_x << " " << g_meshData.currentPosition.m_y << " " << g_meshData.currentPosition.m_z << std::endl;
+  tangent = normalized(tangent);
+  math::Vec3f horizontal = cross(norm, tangent);
+  horizontal = normalized(horizontal);
+  tangent = cross(horizontal, norm);
+  tangent = normalized(tangent);
+
+  g_meshData.modelMatrix = TransformMatrix(norm, tangent, horizontal, g_meshData.currentPosition) * UniformScaleMatrix(0.1f);
+
+  g_meshData.previousPosition = g_meshData.currentPosition;
+  g_meshData.currentPosition = g_meshData.nextPosition;
   // a_perpendicular (for arc length parameterization) = [curve(t + deltat) - 2*curve(t) + curve(t - deltat)] / deltat^2
+
+
   // this is the centripetal acceleration
   // so N, the up vector, is a_perpendicular - gravity (or plus, maybe). N must be normalized
   // forward vector shall be the tangent to the curve
@@ -245,16 +262,16 @@ void oncePerFrame() {
 }
 
 void simulationStep(float deltaS) { 
-	g_meshData.previousPosition = g_meshData.currentPosition; // do something here to track next position
-	math::Vec3f nextPosition;
+	//g_meshData.previousPosition = g_meshData.currentPosition; // do something here to track next position
+	//math::Vec3f nextPosition;
 	float deltaSPrime = 0.f;
 	
 	int nextIndex = curveIndex + 1;
 	if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
 
 	if (distance(g_curve[nextIndex], g_meshData.currentPosition) > deltaS) { // point lies somewhere before next vertex
-		nextPosition = g_meshData.currentPosition + (deltaS * ((g_curve[nextIndex]) - g_meshData.currentPosition) / (distance(g_curve[nextIndex], g_meshData.currentPosition)));
-		animate(nextPosition);
+		g_meshData.nextPosition = g_meshData.currentPosition + (deltaS * ((g_curve[nextIndex]) - g_meshData.currentPosition) / (distance(g_curve[nextIndex], g_meshData.currentPosition)));
+		animate();
 	}
 	else {
 		deltaSPrime = distance(g_curve[nextIndex], g_meshData.currentPosition);
@@ -272,8 +289,8 @@ void simulationStep(float deltaS) {
 			nextIndex = curveIndex + 1;
 			if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
 		}
-		nextPosition = g_curve[curveIndex] + (deltaS - deltaSPrime) * ((g_curve[nextIndex] - g_curve[curveIndex]) / distance(g_curve[nextIndex], g_curve[curveIndex])); // This vector is normalized, we need to shift it
-		animate(nextPosition);
+		g_meshData.nextPosition = g_curve[curveIndex] + (deltaS - deltaSPrime) * ((g_curve[nextIndex] - g_curve[curveIndex]) / distance(g_curve[nextIndex], g_curve[curveIndex])); // This vector is normalized, we need to shift it
+		animate();
 	}
 
 }

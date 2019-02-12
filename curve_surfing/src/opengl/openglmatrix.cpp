@@ -66,6 +66,19 @@ Mat4f TranslateMatrix(Vec3f const &pos) {
   return trans;
 }
 
+Mat4f TransformMatrix(Vec3f const &norm, Vec3f const &tangent, Vec3f const &horizontal, Vec3f const &pos) {
+	//Vec3f horizontal = cross(norm, tangent);
+	//Vec3f newtangent = cross(horizontal, norm);
+	Mat4f trans = {
+	  horizontal.m_x, norm.m_x, tangent.m_x, pos.m_x, // 1 0 0 x
+	  horizontal.m_y, norm.m_y, tangent.m_y, pos.m_y, // 0 1 0 y
+	  horizontal.m_z, norm.m_z, tangent.m_z, pos.m_z, // 0 0 1 z
+	  0.f, 0.f, 0.f, 1.f      // 0 0 0 1
+	};
+
+	return trans;
+}
+
 Mat4f RotateAboutXMatrix(float angleDeg) {
   float angleRad = angleDeg * (M_PI / 180.f);
 
