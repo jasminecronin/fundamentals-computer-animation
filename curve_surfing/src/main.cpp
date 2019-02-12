@@ -200,14 +200,11 @@ void animate() {
   math::Vec3f norm = (acceleration + math::Vec3f(0.f, gravity, 0.f));
   norm = normalized(norm);
   math::Vec3f tangent = (g_meshData.nextPosition - g_meshData.currentPosition) / dt;
-  //std::cout << (g_meshData.nextPosition - g_meshData.currentPosition).m_x << " " << (g_meshData.nextPosition - g_meshData.currentPosition).m_y << " " << (g_meshData.nextPosition - g_meshData.currentPosition).m_z << std::endl;
-  //std::cout << g_meshData.nextPosition.m_x << " " << g_meshData.nextPosition.m_y << " " << g_meshData.nextPosition.m_z << std::endl;
-  //std::cout << g_meshData.currentPosition.m_x << " " << g_meshData.currentPosition.m_y << " " << g_meshData.currentPosition.m_z << std::endl;
   tangent = normalized(tangent);
-  math::Vec3f horizontal = cross(norm, tangent);
+  math::Vec3f horizontal = cross(tangent, norm);
   horizontal = normalized(horizontal);
-  tangent = cross(horizontal, norm);
-  tangent = normalized(tangent);
+  norm = cross(horizontal, tangent);
+  norm = normalized(norm);
 
   g_meshData.modelMatrix = TransformMatrix(norm, tangent, horizontal, g_meshData.currentPosition) * UniformScaleMatrix(0.1f);
 
@@ -262,8 +259,6 @@ void oncePerFrame() {
 }
 
 void simulationStep(float deltaS) { 
-	//g_meshData.previousPosition = g_meshData.currentPosition; // do something here to track next position
-	//math::Vec3f nextPosition;
 	float deltaSPrime = 0.f;
 	
 	int nextIndex = curveIndex + 1;
