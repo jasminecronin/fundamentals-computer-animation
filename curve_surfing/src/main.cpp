@@ -28,6 +28,8 @@
 
 #include <cmath>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <limits>
 #include <vector>
 
@@ -55,9 +57,12 @@ namespace openGL {
 struct RenderableMesh {
   GLuint vaoID = 0;
   GLuint vertexBufferID = 0;
+  GLuint normalBufferID = 0;
   GLuint indexBufferID = 0;
   GLuint verticesCount = 0;
+  GLuint normalsCount = 0;
   GLuint indicesCount = 0;
+  GLuint drawMode = GL_TRIANGLES;
   math::Mat4f modelMatrix = math::identity();
   math::Vec3f currentPosition;
   math::Vec3f previousPosition;
@@ -78,6 +83,7 @@ openGL::RenderableLine g_curveData;
 
 // Curve geometry for simulation
 std::string g_curveFilePath = "./curves/coaster.obj";
+std::string g_meshFilePath = "./meshes/cart.obj";
 // std::string g_curveFilePath = "";
 math::geometry::Curve g_curve;
 int32_t g_numberOfSubdivisions = 4; // Starting number of subdivisions to smooth out the curve
@@ -126,6 +132,7 @@ bool generateIDs();
 void deleteIDs();
 void setupVAO();
 
+void parseMeshOBJ(std::vector<math::Vec3f> &verts);
 bool loadMeshGeometryToGPU();
 bool loadCurveGeometryToGPU(int numberOfSubdivisions);
 
@@ -223,8 +230,6 @@ void simulationStep(float deltaS) {
 	g_meshData.previousPosition = g_meshData.currentPosition;
 	math::Vec3f nextPosition;
 	float deltaSPrime = 0.f;
-
-	// TODO Need to fix the vertex out of bounds error. Wherever curve[icurveIndex + 1] is called, need to account for when curve[i + 1] = points.size
 	
 	int nextIndex = curveIndex + 1;
 	if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
@@ -256,31 +261,114 @@ void simulationStep(float deltaS) {
 }
 
 bool loadMeshGeometryToGPU() {
-  std::vector<math::Vec3f> verts;
-  verts.push_back({-1.f, -1.f, 0});
-  verts.push_back({-1.f, 1.f, 0});
-  verts.push_back({1.f, -1.f, 0});
-  verts.push_back({1.f, 1.f, 0.f});
+	// need to parse the .obj file here
+	std::vector<math::Vec3f> verts;
 
-  g_meshData.verticesCount = verts.size();
+	//if (g_meshFilePath.empty()) {
+		verts.push_back({ -1.f, -1.f, 0 });
+		verts.push_back({ -1.f, 1.f, 0 });
+		verts.push_back({ 1.f, -1.f, 0 });
+		verts.push_back({ 1.f, 1.f, 0.f });
+	//}
+	//else {
+		//parseMeshOBJ(verts);
+		/*verts.push_back({ -0.599702f, 0.192521f, 0.928188f });
+		verts.push_back({ -0.599702f, 1.201907f, 0.928188f });
+		verts.push_back({ -0.599702f, 0.192521f, -0.928188f });
+		verts.push_back({ -0.599702f, 1.201907f, -0.928188f });
+		verts.push_back({ 0.599702f, 0.192521f, 0.928188f });
+		verts.push_back({ 0.599702f, 1.201907f, 0.928188f });
+		verts.push_back({ 0.599702f, 0.192521f, -0.928188f });
+		verts.push_back({ 0.599702f, 1.201907f, -0.928188 });*/
+	//}
+	
+	g_meshData.verticesCount = verts.size();
 
-  glBindBuffer(GL_ARRAY_BUFFER, g_meshData.vertexBufferID);
-  glBufferData(GL_ARRAY_BUFFER,
+	// possibly need to bind the normal buffer array as well?
+	glBindBuffer(GL_ARRAY_BUFFER, g_meshData.vertexBufferID);
+	glBufferData(GL_ARRAY_BUFFER,
                sizeof(math::Vec3f) *
                    g_meshData.verticesCount, // byte size of Vec3f
                verts.data(),    // pointer (Vec3f*) to contents of verts
                GL_STATIC_DRAW); // Usage pattern of GPU buffer
 
-  std::vector<GLuint> indices = {0, 1, 2, 3};
+	std::vector<GLuint> indices = {0, 1, 2, 3};
 
-  g_meshData.indicesCount = indices.size();
+	g_meshData.indicesCount = indices.size();
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_meshData.indexBufferID);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_meshData.indexBufferID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                sizeof(GLuint) * g_meshData.indicesCount, indices.data(),
                GL_STATIC_DRAW);
 
-  return true;
+	return true;
+}
+
+void parseMeshOBJ(std::vector<math::Vec3f> &verts) {
+	// temporary lists
+	std::vector<math::Vec3f> tempVertices;
+	//std::vector<glm::vec3> tempNormals;
+
+	std::ifstream file;
+	file.open(g_meshFilePath);
+	if (!file) {
+		std::cout << "Error in opening file" << std::endl;
+	}
+
+	std::string line;
+	while (!file.eof())	{
+		getline(file, line);
+
+		// Split each line into a list delimited by spaces
+		std::vector<std::string> words;
+		std::stringstream ss(line);
+		std::string item;
+		while (std::getline(ss, item, ' ')) {
+			*(std::back_inserter(words)++) = item;
+		}
+
+		//std::cout << words[0] << std::endl;
+
+		// If vertex line, get vertex positions
+		if (words[0] == "v") {
+			tempVertices.push_back(math::Vec3f(stof(words[1]), stof(words[2]), stof(words[3])));
+			//verts.push_back(math::Vec3f(stof(words[1]), stof(words[2]), stof(words[3])));
+		}
+		// If texture line, get uv coords
+		/*else if (words[0] == "vt") {
+			tempUVs.push_back(glm::vec2(stof(words[1]), stof(words[2])));
+		}*/
+		// If normal line, get normals
+		/*else if (words[0] == "vn") {
+			tempNormals.push_back(glm::vec3(stof(words[1]), stof(words[2]), stof(words[3])));
+		}*/
+		// If faces line
+		else if (words[0] == "f") {
+
+			for (int i = 1; i < 4; i++) { // The remaining three 'words'
+
+				// Same as above, but splits each 'word' into another list delimited by slashes
+				std::vector<std::string> data;
+				std::stringstream ss(&words[i].at(0));
+				std::string num;
+				while (std::getline(ss, num, '/')) {
+					*(std::back_inserter(data)++) = num;
+				}
+
+				// Turn each of those numbers into indices for the temp lists
+				int vert = atoi(&data[0].at(0)) - 1;
+	//			//int uv = atoi(&data[1].at(0)) - 1;
+	//			int norm = atoi(&data[2].at(0)) - 1;
+
+				// Create the sphere
+				//std::cout << tempVertices.at(vert).m_x << " " << tempVertices.at(vert).m_y << " " << tempVertices.at(vert).m_z << std::endl;
+				verts.push_back(tempVertices.at(vert));
+	//			//normals.push_back(tempNormals.at(norm));
+			}
+		}
+	}
+
+	file.close();
 }
 
 bool loadCurveGeometryToGPU(int numberOfSubdivisions) {
@@ -331,6 +419,7 @@ void setupVAO() {
                         0,        // stride
                         (void *)0 // array buffer offset
   );
+  //glDrawArrays(GL_TRIANGLES, 0, g_meshData.verticesCount);
 
   glBindVertexArray(g_curveData.vaoID);
 
