@@ -177,8 +177,9 @@ void displayFunc() {
   // and attribute config of buffers
   glBindVertexArray(g_meshData.vaoID);
   // Draw mesh, start at vertex 0, draw a # of them
-  glDrawElements(GL_TRIANGLE_STRIP, g_meshData.indicesCount, GL_UNSIGNED_INT,
-                 (void *)0);
+  //glDrawElements(GL_TRIANGLE_STRIP, g_meshData.indicesCount, GL_UNSIGNED_INT,
+                 //(void *)0);
+  glDrawArrays(GL_TRIANGLES, 0, g_meshData.verticesCount);
 
   // ==== DRAW CURVE ===== //
   g_MVP = g_P * g_V * g_curveData.modelMatrix;
@@ -294,14 +295,14 @@ bool loadMeshGeometryToGPU() {
 	// need to parse the .obj file here
 	std::vector<math::Vec3f> verts;
 
-	//if (g_meshFilePath.empty()) {
+	if (g_meshFilePath.empty()) {
 		verts.push_back({ -1.f, -1.f, 0 });
 		verts.push_back({ -1.f, 1.f, 0 });
 		verts.push_back({ 1.f, -1.f, 0 });
 		verts.push_back({ 1.f, 1.f, 0.f });
-	//}
-	//else {
-		//parseMeshOBJ(verts);
+	}
+	else {
+		parseMeshOBJ(verts);
 		/*verts.push_back({ -0.599702f, 0.192521f, 0.928188f });
 		verts.push_back({ -0.599702f, 1.201907f, 0.928188f });
 		verts.push_back({ -0.599702f, 0.192521f, -0.928188f });
@@ -310,7 +311,7 @@ bool loadMeshGeometryToGPU() {
 		verts.push_back({ 0.599702f, 1.201907f, 0.928188f });
 		verts.push_back({ 0.599702f, 0.192521f, -0.928188f });
 		verts.push_back({ 0.599702f, 1.201907f, -0.928188 });*/
-	//}
+	}
 	
 	g_meshData.verticesCount = verts.size();
 
