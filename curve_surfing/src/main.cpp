@@ -195,7 +195,25 @@ void animate(math::Vec3f nextPosition) {
   using namespace openGL;
 
   g_meshData.currentPosition = nextPosition;
-  g_meshData.modelMatrix = TranslateMatrix(g_meshData.currentPosition) * UniformScaleMatrix(0.1f);
+  g_meshData.modelMatrix = TranslateMatrix(g_meshData.currentPosition) * UniformScaleMatrix(0.1f); // Should probably define a new transformation matrix that takes in 3 vectors and a position
+  // Here we need to adjust the model matrix
+  // Note*** will have to keep track of a current t as well as a deltat. do we? maybe not
+  // a_perpendicular (for arc length parameterization) = [curve(t + deltat) - 2*curve(t) + curve(t - deltat)] / deltat^2
+  // this is the centripetal acceleration
+  // so N, the up vector, is a_perpendicular - gravity (or plus, maybe). N must be normalized
+  // forward vector shall be the tangent to the curve
+  // tangent = [curve(t + deltat) - curve(t)] / deltat. tangent must be normalized
+  // get the horizontal vector by getting tangent cross N and normalize
+  // then correct the tangent by getting N cross horizontal
+  // now pack horizontal, N, and tangent into the model matrix along with position
+
+  // curve at t is simply the current position of the cart
+  // curve at t + deltat is the next position of the cart, probably need to precompute this
+  // calculate the next position but dont animate it yet. On each frame just shift previous = current, current = next, next = new calculation
+  // curve at t - deltat is the previous position of the cart, which we keep track of
+
+  // to model the track, we will need to run through the curve with arc length paramaterization (with a large deltas probably)
+  // then need to compute the transformation vectors and form the track model, add vertices to the track
 }
 
 void oncePerFrame() {
@@ -227,7 +245,7 @@ void oncePerFrame() {
 }
 
 void simulationStep(float deltaS) { 
-	g_meshData.previousPosition = g_meshData.currentPosition;
+	g_meshData.previousPosition = g_meshData.currentPosition; // do something here to track next position
 	math::Vec3f nextPosition;
 	float deltaSPrime = 0.f;
 	
