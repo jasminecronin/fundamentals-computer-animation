@@ -116,10 +116,10 @@ float WIN_NEAR = 0.01f;
 float WIN_FAR = 100.f;
 
 float liftSpeed = 1.0f; // Constant speed for lift portion of the coaster
-float dt = 0.3f / 60.0f; // delta T for speed calculation
+float dt = 1.f / 60.0f; // delta T for speed calculation
 std::string coasterPhase = "lift"; // State tracker for which part of the coaster we're in
 int curveIndex = 0;
-float gravity = 9.81f;
+float gravity = 3.5f;
 float maxHeight;
 float decelerationLength = 0.f;
 float decelerationSpeed = 0.f;
@@ -151,7 +151,10 @@ void windowMouseButtonFunc(GLFWwindow *window, int button, int action,
 void windowMouseMotionFunc(GLFWwindow *window, double x, double y);
 void windowKeyFunc(GLFWwindow *window, int key, int scancode, int action,
                    int mods);
-void animate();
+
+math::Vec3f advancePos(math::Vec3f pos, int i, float ds);
+math::Vec3f retreatPos(math::Vec3f pos, int i, float ds);
+void animate(float ds);
 void simulationStep(float deltaS);
 void moveCamera();
 void resetCamera();
@@ -193,14 +196,80 @@ void displayFunc() {
   glDrawArrays(GL_LINE_LOOP, 0, g_curveData.verticesCount);
 }
 
-void animate() {
-  using namespace openGL;
+math::Vec3f advancePos(math::Vec3f pos, int i, float ds) {
+	float deltaSPrime = 0.f;
+	math::Vec3f result;
 
-  math::Vec3f acceleration = (g_meshData.nextPosition - (2 * g_meshData.currentPosition) + g_meshData.previousPosition) / (dt * dt);
+	int nextIndex = i + 1;
+	if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
+
+	if (distance(g_curve[nextIndex], pos) > ds) { // point lies somewhere before next vertex
+		result = pos + (ds * ((g_curve[nextIndex]) - pos) / (distance(g_curve[nextIndex], pos)));
+	}
+	else {
+		deltaSPrime = distance(g_curve[nextIndex], pos);
+
+		i++;
+		if (i >= g_curve.pointCount()) i = 0;
+		nextIndex = i + 1;
+		if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
+
+		while ((deltaSPrime + distance(g_curve[nextIndex], g_curve[i])) < ds) {
+			deltaSPrime += distance(g_curve[nextIndex], g_curve[i]);
+			i++;
+			if (i >= g_curve.pointCount()) i = 0;
+			nextIndex = i + 1;
+			if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
+		}
+		result = g_curve[i] + (ds - deltaSPrime) * ((g_curve[nextIndex] - g_curve[i]) / distance(g_curve[nextIndex], g_curve[i])); // This vector is normalized, we need to shift it
+	}
+	return result;
+}
+
+math::Vec3f retreatPos(math::Vec3f pos, int i, float ds) {
+	float deltaSPrime = 0.f;
+	math::Vec3f result;
+	i++;
+	if (i >= g_curve.pointCount()) i = 0;
+
+	int nextIndex = i - 1;	
+	if (nextIndex < 0) nextIndex = g_curve.pointCount() - 1;
+
+	if (distance(pos, g_curve[nextIndex]) > ds) { // point lies somewhere before next vertex
+		result = pos + (ds * (pos - (g_curve[nextIndex])) / (distance(g_curve[nextIndex], pos)));
+	}
+	else {
+		deltaSPrime = distance(g_curve[nextIndex], pos);
+
+		i--;
+		if (i < 0) i = g_curve.pointCount() - 1;
+		nextIndex = i - 1;
+		if (nextIndex < 0) nextIndex = g_curve.pointCount() - 1;
+
+		while ((deltaSPrime + distance(g_curve[nextIndex], g_curve[i])) < ds) {
+			deltaSPrime += distance(g_curve[nextIndex], g_curve[i]);
+			//std::cout << i << std::endl;
+			i--;
+			if (i < 0) i = g_curve.pointCount() - 1;
+			nextIndex = i - 1;
+			if (nextIndex < 0) nextIndex = g_curve.pointCount() - 1;
+		}
+		result = g_curve[i] + (ds - deltaSPrime) * ((g_curve[i] - g_curve[nextIndex]) / distance(g_curve[nextIndex], g_curve[i])); 
+	}
+	return result;
+}
+
+void animate(float ds) {
+  using namespace openGL;
+  float t = 0.3f;
+  math::Vec3f pnext = advancePos(g_meshData.currentPosition, curveIndex, t);
+  math::Vec3f pprev = retreatPos(g_meshData.currentPosition, curveIndex, t);
+
+  math::Vec3f acceleration = (pnext - (2 * g_meshData.currentPosition) + pprev) / (t * t);
 
   math::Vec3f norm = (acceleration + math::Vec3f(0.f, gravity, 0.f));
   norm = normalized(norm);
-  math::Vec3f tangent = (g_meshData.nextPosition - g_meshData.currentPosition) / dt;
+  math::Vec3f tangent = (pnext - g_meshData.currentPosition) / t;
   tangent = normalized(tangent);
   math::Vec3f horizontal = cross(tangent, norm);
   horizontal = normalized(horizontal);
@@ -211,24 +280,7 @@ void animate() {
 
   g_meshData.previousPosition = g_meshData.currentPosition;
   g_meshData.currentPosition = g_meshData.nextPosition;
-  // a_perpendicular (for arc length parameterization) = [curve(t + deltat) - 2*curve(t) + curve(t - deltat)] / deltat^2
 
-
-  // this is the centripetal acceleration
-  // so N, the up vector, is a_perpendicular - gravity (or plus, maybe). N must be normalized
-  // forward vector shall be the tangent to the curve
-  // tangent = [curve(t + deltat) - curve(t)] / deltat. tangent must be normalized
-  // get the horizontal vector by getting tangent cross N and normalize
-  // then correct the tangent by getting N cross horizontal
-  // now pack horizontal, N, and tangent into the model matrix along with position
-
-  // curve at t is simply the current position of the cart
-  // curve at t + deltat is the next position of the cart, probably need to precompute this
-  // calculate the next position but dont animate it yet. On each frame just shift previous = current, current = next, next = new calculation
-  // curve at t - deltat is the previous position of the cart, which we keep track of
-
-  // to model the track, we will need to run through the curve with arc length paramaterization (with a large deltas probably)
-  // then need to compute the transformation vectors and form the track model, add vertices to the track
 }
 
 void oncePerFrame() {
@@ -267,7 +319,7 @@ void simulationStep(float deltaS) {
 
 	if (distance(g_curve[nextIndex], g_meshData.currentPosition) > deltaS) { // point lies somewhere before next vertex
 		g_meshData.nextPosition = g_meshData.currentPosition + (deltaS * ((g_curve[nextIndex]) - g_meshData.currentPosition) / (distance(g_curve[nextIndex], g_meshData.currentPosition)));
-		animate();
+		animate(deltaS);
 	}
 	else {
 		deltaSPrime = distance(g_curve[nextIndex], g_meshData.currentPosition);
@@ -286,7 +338,7 @@ void simulationStep(float deltaS) {
 			if (nextIndex >= g_curve.pointCount()) nextIndex = 0;
 		}
 		g_meshData.nextPosition = g_curve[curveIndex] + (deltaS - deltaSPrime) * ((g_curve[nextIndex] - g_curve[curveIndex]) / distance(g_curve[nextIndex], g_curve[curveIndex])); // This vector is normalized, we need to shift it
-		animate();
+		animate(deltaS);
 	}
 
 }
@@ -423,6 +475,8 @@ bool loadCurveGeometryToGPU(int numberOfSubdivisions) {
   }
 
   g_curve = math::geometry::cubicSubdivideCurve(g_curve, numberOfSubdivisions);
+
+ // std::vector<math::Vec3f> track;
 
   glBindBuffer(GL_ARRAY_BUFFER, g_curveData.vertexBufferID);
   glBufferData(GL_ARRAY_BUFFER,
