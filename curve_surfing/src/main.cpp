@@ -115,11 +115,11 @@ float WIN_FOV = 50.f;
 float WIN_NEAR = 0.01f;
 float WIN_FAR = 100.f;
 
-float liftSpeed = 0.6f; // Constant speed for lift portion of the coaster
-float dt = 0.5f / 60.0f; // delta T for speed calculation
+float liftSpeed = 1.0f; // Constant speed for lift portion of the coaster
+float dt = 0.3f / 60.0f; // delta T for speed calculation
 std::string coasterPhase = "lift"; // State tracker for which part of the coaster we're in
 int curveIndex = 0;
-float gravity = 4.f;
+float gravity = 9.81f;
 float maxHeight;
 float decelerationLength = 0.f;
 float decelerationSpeed = 0.f;
