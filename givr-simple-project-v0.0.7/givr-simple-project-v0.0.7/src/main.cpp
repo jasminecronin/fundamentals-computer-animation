@@ -43,35 +43,54 @@ int main(void)
     TurnTableControls controls(window, view.camera);
 
 	//std::string scene = "single";
-	std::string scene = "chain";
+	//std::string scene = "chain";
 	//std::string scene = "cube";
-	//std::string scene = "cloth";
+	std::string scene = "cloth";
 
 	auto masses = initializeMasses(scene);
 	auto springs = initializeSprings(masses, scene);
 
-    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glClearColor(1.f, 1.f, 1.f, 1.f);
     float u = 0.;
     window.run([&](float frameTime) {
         view.projection.updateAspectRatio(window.width(), window.height());
 
 		simulation(masses, springs, scene);
 
-		for (particle p : masses) {
-			//std::cout << p.position.y << std::endl;
-			auto sphere = createRenderable(
-				Sphere(Centroid(p.position), Radius(1.0)),
-				Phong(Colour(1., 1., 0.), LightPosition(2., 2., 15.))
-			);
-			draw(sphere, view, mat4f{ 1.f });
+		if (scene.compare("cloth") != 0) {
+			for (particle p : masses) {
+				//std::cout << p.position.y << std::endl;
+				auto sphere = createRenderable(
+					Sphere(Centroid(p.position), Radius(1.0)),
+					Phong(Colour(1., 1., 0.), LightPosition(2., 2., 15.))
+				);
+				draw(sphere, view, mat4f{ 1.f });
+			}
+			for (spring s : springs) {
+				auto cylinder = createRenderable(
+					Cylinder(Point1(masses[s.i].position), Point2(masses[s.j].position), Radius(.1)),
+					Phong(Colour(1., 0., 0.), LightPosition(2., 2., 15.))
+				);
+				draw(cylinder, view, mat4f{ 1.f });
+			}
 		}
-		for (spring s : springs) {
-			auto cylinder = createRenderable(
-				Cylinder(Point1(masses[s.i].position), Point2(masses[s.j].position), Radius(.1)),
-				Phong(Colour(1., 0., 0.), LightPosition(2., 2., 15.))
-			);
-			draw(cylinder, view, mat4f{ 1.f });
+		else if (scene.compare("cloth") == 0) {
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					auto t1 = createRenderable(
+						Triangle(Point1(masses[(5 * i) + j].position), Point2(masses[(5 * i) + j + 1].position), Point3(masses[(5 * (i + 1)) + j].position)),
+						Phong(Colour(0., 1., 0.5), LightPosition(15., 15., 10.))
+					);
+					draw(t1, view, mat4f{ 1.f });
+					auto t2 = createRenderable(
+						Triangle(Point1(masses[(5 * i) + j + 1].position), Point2(masses[(5 * (i + 1)) + j].position), Point3(masses[(5 * (i + 1)) + j + 1].position)),
+						Phong(Colour(0., 1., 0.5), LightPosition(15., 15., 10.))
+					);
+					draw(t2, view, mat4f{ 1.f });
+				}
+			}
 		}
+
     });
     exit(EXIT_SUCCESS);
 }
@@ -111,7 +130,17 @@ std::vector<particle> initializeMasses(std::string scene)
 
 	}
 	else if (scene.compare("cloth") == 0) {
-
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				m = 5.0f;
+				if (i == 0) m = 0.0f; // First row of fixed masses
+				p.mass = m;
+				p.position = givr::vec3f(-8.0f + (4 * j), 20.0f, 0.0f - (4 * i));
+				p.velocity = givr::vec3f(0.0f, 0.0f, 0.0f);
+				p.netforce = givr::vec3f(0.0f, 0.0f, 0.0f);
+				masses.push_back(p);
+			}
+		}
 	}
 	return masses;
 }
@@ -140,7 +169,10 @@ std::vector<spring> initializeSprings(std::vector<particle> &masses, std::string
 
 	}
 	else if (scene.compare("cloth") == 0) {
-
+		stiffness = 300.0f;
+		damping = 1.f;
+		p1 = masses[0].position;
+		p2 = masses[2].position;
 	}
 	maxlength = glm::distance(p1, p2);
 	for (int i = 0; i < masses.size(); i++) {
@@ -175,7 +207,8 @@ void simulation(std::vector<particle> &masses, std::vector<spring> &springs, std
 
 	}
 	else if (scene.compare("cloth") == 0) {
-
+		steps = 4096;
+		dt = 0.00001f;
 	}
 	vec3f g = vec3f(0.0, -10.0, 0.0);
 	for (int t = 0; t < steps; t++) {
