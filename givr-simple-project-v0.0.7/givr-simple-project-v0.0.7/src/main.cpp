@@ -32,6 +32,7 @@ struct spring {
 std::vector<particle> initializeMasses(std::string scene);
 std::vector<spring> initializeSprings(std::vector<particle> &masses, std::string scene);
 void simulation(std::vector<particle> &masses, std::vector<spring> &springs, std::string scene);
+vec3f collisionForce(particle p);
 
 int main(void)
 {
@@ -44,8 +45,8 @@ int main(void)
 
 	//std::string scene = "single";
 	//std::string scene = "chain";
-	//std::string scene = "cube";
-	std::string scene = "cloth";
+	std::string scene = "cube";
+	//std::string scene = "cloth";
 
 	auto masses = initializeMasses(scene);
 	auto springs = initializeSprings(masses, scene);
@@ -57,7 +58,7 @@ int main(void)
 
 		simulation(masses, springs, scene);
 
-		if (scene.compare("cloth") != 0) {
+		if (scene.compare("single") == 0 || scene.compare("chain") == 0) {
 			for (particle p : masses) {
 				//std::cout << p.position.y << std::endl;
 				auto sphere = createRenderable(
@@ -74,6 +75,39 @@ int main(void)
 				draw(cylinder, view, mat4f{ 1.f });
 			}
 		}
+		else if (scene.compare("cube") == 0) {
+			for (particle p : masses) {
+				//std::cout << p.position.y << std::endl;
+				auto sphere = createRenderable(
+					Sphere(Centroid(p.position), Radius(1.0)),
+					Phong(Colour(1., 1., 0.), LightPosition(2., 2., 15.))
+				);
+				draw(sphere, view, mat4f{ 1.f });
+			}
+			for (spring s : springs) {
+				auto cylinder = createRenderable(
+					Cylinder(Point1(masses[s.i].position), Point2(masses[s.j].position), Radius(.1)),
+					Phong(Colour(1., 0., 0.), LightPosition(2., 2., 15.))
+				);
+				draw(cylinder, view, mat4f{ 1.f });
+			}
+		}
+		// else if (scene.compare("cube") == 0) {
+		// 	for (int i = 0; i < 4; i++) {
+		// 		for (int j = 0; j < 4; j++) {
+		// 			auto t1 = createRenderable(
+		// 				Triangle(Point1(masses[(5 * i) + j].position), Point2(masses[(5 * i) + j + 1].position), Point3(masses[(5 * (i + 1)) + j].position)),
+		// 				Phong(Colour(0., 1., 0.5), LightPosition(15., 15., 10.))
+		// 			);
+		// 			draw(t1, view, mat4f{ 1.f });
+		// 			auto t2 = createRenderable(
+		// 				Triangle(Point1(masses[(5 * i) + j + 1].position), Point2(masses[(5 * (i + 1)) + j].position), Point3(masses[(5 * (i + 1)) + j + 1].position)),
+		// 				Phong(Colour(0., 1., 0.5), LightPosition(15., 15., 10.))
+		// 			);
+		// 			draw(t2, view, mat4f{ 1.f });
+		// 		}
+		// 	}
+		// }
 		else if (scene.compare("cloth") == 0) {
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
@@ -127,7 +161,18 @@ std::vector<particle> initializeMasses(std::string scene)
 		}
 	}
 	else if (scene.compare("cube") == 0) {
-
+		m = 5.0f;
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				for (int k = 0; k < 5; k++) {
+					p.mass = m;
+					p.position = givr::vec3f(-8.0f + (4 * i), 20.0f - (4 * j), 0.0f - (4 * k));
+					p.velocity = givr::vec3f(0.0f, 0.0f, 0.0f);
+					p.netforce = givr::vec3f(0.0f, 0.0f, 0.0f);
+					masses.push_back(p);
+				}
+			}
+		}
 	}
 	else if (scene.compare("cloth") == 0) {
 		for (int i = 0; i < 5; i++) {
@@ -166,7 +211,10 @@ std::vector<spring> initializeSprings(std::vector<particle> &masses, std::string
 		p2 = masses[1].position;
 	}
 	else if (scene.compare("cube") == 0) {
-
+		stiffness = 10.0f;
+		damping = 0.1f;
+		p1 = masses[0].position;
+		p2 = masses[31].position;
 	}
 	else if (scene.compare("cloth") == 0) {
 		stiffness = 300.0f;
@@ -204,7 +252,8 @@ void simulation(std::vector<particle> &masses, std::vector<spring> &springs, std
 		dt = 0.001f;
 	}
 	else if (scene.compare("cube") == 0) {
-
+		steps = 16;
+		dt = 0.01f;
 	}
 	else if (scene.compare("cloth") == 0) {
 		steps = 4096;
@@ -230,10 +279,10 @@ void simulation(std::vector<particle> &masses, std::vector<spring> &springs, std
 			
 		}
 		for (particle &p : masses) {
-			//Fcoll = CalculateCollisionForce(pi)
+			vec3f collisionforce = collisionForce(p);
 			vec3f gravityforce = p.mass * g;
 			//std::cout << gravityforce.x << " " << gravityforce.y << " " << gravityforce.z << std::endl;
-			p.netforce += gravityforce; // + collisionforce;
+			p.netforce += gravityforce + collisionforce;
 			//std::cout << p.netforce.x << " " << p.netforce.y << " " << p.netforce.z << std::endl;
 		}
 		for (particle &p : masses) {
@@ -247,6 +296,21 @@ void simulation(std::vector<particle> &masses, std::vector<spring> &springs, std
 			p.netforce = vec3f(0.0, 0.0, 0.0);
 		}
 	}
+}
+
+vec3f collisionForce(particle p) {
+	float k = 1000; // fake spring force
+	float b = 50.0f;
+	float floor = -20.0f;
+	if (p.position.y < floor) {
+		vec3f force = (k * abs(floor - p.position.y)) - (b * p.velocity);
+		return force;
+	}
+	else {
+		return vec3f(0.0, 0.0, 0.0);
+	}
+	//if y value of position is below a certain point
+	// return -k(|h|) - bv
 }
 
 
