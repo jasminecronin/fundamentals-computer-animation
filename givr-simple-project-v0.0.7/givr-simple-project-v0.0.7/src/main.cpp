@@ -49,12 +49,16 @@ int main(void)
 	//	io::Key(GLFW_KEY_O, [&](auto event) { tmp += 1; });
 
 	//std::string scene = "single";
-	//std::string scene = "chain";
-	std::string scene = "cube";
+	std::string scene = "chain";
+	//std::string scene = "cube";
 	//std::string scene = "cloth";
 
 	auto masses = initializeMasses(scene);
 	auto springs = initializeSprings(masses, scene);
+
+	// set a rendering style for each object up here
+	// create the list of renderable objects using instancedrenderable
+	// use updateRenderable to update positions: updateRenderable(geometry, shading, object)
 
     glClearColor(1.f, 1.f, 1.f, 1.f);
     float u = 0.;
