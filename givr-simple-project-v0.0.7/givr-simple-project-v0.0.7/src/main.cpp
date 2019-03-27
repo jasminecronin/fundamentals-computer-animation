@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
-// A simple example showing how to use the triangle geometry
+// A program rendering a selection of mass-spring system animations
+// rendered using GIVR.
 //------------------------------------------------------------------------------
 #include "givr.h"
 #include <glm/gtc/matrix_transform.hpp>
@@ -13,19 +14,21 @@ using namespace givr::camera;
 using namespace givr::geometry;
 using namespace givr::style;
 
+// Struct defining particle 'masses'
 struct particle {
-	float mass;
-	givr::vec3f position;
-	givr::vec3f velocity;
-	givr::vec3f netforce;
-	float damping;
+	float mass; // Mass of particle
+	givr::vec3f position; // Position in 3D space
+	givr::vec3f velocity; // Current velocity vector
+	givr::vec3f netforce; // Current force (acceleration) vector being applied
+	float damping; // Damping coefficient
 };
 
+// Struct definine the springs between masses
 struct spring {
-	float rlength;
-	int i;
-	int j;
-	float stiffness;
+	float rlength; // Rest length
+	int i; // Index of mass on 1st end of spring
+	int j; // Index of mass on 2nd end of spring
+	float stiffness; // Stiffness coefficient
 };
 
 // Function declarations
@@ -42,22 +45,31 @@ int main(void)
 
     auto view = View(TurnTable(), Perspective());
     TurnTableControls controls(window, view.camera);
+	std::vector<particle> masses;
+	std::vector<spring> springs;
 
-	//float tmp = 0;
+	std::string scene = "single"; // Current scene being displayed
 
-	//windows.keyboardCommands() |
-	//	io::Key(GLFW_KEY_O, [&](auto event) { tmp += 1; });
+	// Change scene depending on key presses
+	window.keyboardCommands() 
+		| io::Key(GLFW_KEY_1, [&](auto event) {
+			scene = "single"; 
+			masses = initializeMasses(scene);
+			springs = initializeSprings(masses, scene);})
+		| io::Key(GLFW_KEY_2, [&](auto event) {
+			scene = "chain";
+			masses = initializeMasses(scene);
+			springs = initializeSprings(masses, scene);})
+		| io::Key(GLFW_KEY_3, [&](auto event) {
+			scene = "cube";
+			masses = initializeMasses(scene);
+			springs = initializeSprings(masses, scene);})
+		| io::Key(GLFW_KEY_4, [&](auto event) {
+			scene = "cloth";
+			masses = initializeMasses(scene);
+			springs = initializeSprings(masses, scene);});
 
-	//std::string scene = "single";
-	std::string scene = "chain";
-	//std::string scene = "cube";
-	//std::string scene = "cloth";
-
-	auto masses = initializeMasses(scene);
-	auto springs = initializeSprings(masses, scene);
-
-	// set a rendering style for each object up here
-	// create the list of renderable objects using instancedrenderable
+	// Create 2 lists of renderable objects based on the initial lists of masses and springs
 	// use updateRenderable to update positions: updateRenderable(geometry, shading, object)
 
     glClearColor(1.f, 1.f, 1.f, 1.f);
@@ -65,11 +77,10 @@ int main(void)
     window.run([&](float frameTime) {
         view.projection.updateAspectRatio(window.width(), window.height());
 
-		simulation(masses, springs, scene);
+		simulation(masses, springs, scene); // Calculate the next positions of the masses
 
 		if (scene.compare("single") == 0 || scene.compare("chain") == 0) {
 			for (particle p : masses) {
-				//std::cout << p.position.y << std::endl;
 				auto sphere = createRenderable(
 					Sphere(Centroid(p.position), Radius(1.0)),
 					Phong(Colour(1., 1., 0.), LightPosition(2., 2., 15.))
@@ -86,47 +97,23 @@ int main(void)
 		}
 		else if (scene.compare("cube") == 0) {
 			for (particle p : masses) {
-				//std::cout << p.position.y << std::endl;
 				auto sphere = createRenderable(
 					Sphere(Centroid(p.position), Radius(1.0)),
 					Phong(Colour(1., 1., 0.), LightPosition(2., 2., 15.))
 				);
 				draw(sphere, view, mat4f{ 1.f });
 			}
-			// for (spring s : springs) {
-			// 	auto cylinder = createRenderable(
-			// 		Cylinder(Point1(masses[s.i].position), Point2(masses[s.j].position), Radius(.1)),
-			// 		Phong(Colour(1., 0., 0.), LightPosition(2., 2., 15.))
-			// 	);
-			// 	draw(cylinder, view, mat4f{ 1.f });
-			// }
 		}
-		/* else if (scene.compare("cube") == 0) {
-			for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < 4; j++) {
-					auto t1 = createRenderable(
-						Triangle(Point1(masses[(5 * i) + j].position), Point2(masses[(5 * i) + j + 1].position), Point3(masses[(5 * (i + 1)) + j].position)),
-						Phong(Colour(0., 1., 0.5), LightPosition(15., 15., 10.))
-					);
-					draw(t1, view, mat4f{ 1.f });
-					auto t2 = createRenderable(
-						Triangle(Point1(masses[(5 * i) + j + 1].position), Point2(masses[(5 * (i + 1)) + j].position), Point3(masses[(5 * (i + 1)) + j + 1].position)),
-						Phong(Colour(0., 1., 0.5), LightPosition(15., 15., 10.))
-					);
-					draw(t2, view, mat4f{ 1.f });
-				}
-			}
-		}*/
 		else if (scene.compare("cloth") == 0) {
-			for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < 4; j++) {
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
 					auto t1 = createRenderable(
-						Triangle(Point1(masses[(5 * i) + j].position), Point2(masses[(5 * i) + j + 1].position), Point3(masses[(5 * (i + 1)) + j].position)),
+						Triangle(Point1(masses[(11 * i) + j].position), Point2(masses[(11 * i) + j + 1].position), Point3(masses[(11 * (i + 1)) + j].position)),
 						Phong(Colour(0., 1., 0.5), LightPosition(15., 15., 10.))
 					);
 					draw(t1, view, mat4f{ 1.f });
 					auto t2 = createRenderable(
-						Triangle(Point1(masses[(5 * i) + j + 1].position), Point2(masses[(5 * (i + 1)) + j].position), Point3(masses[(5 * (i + 1)) + j + 1].position)),
+						Triangle(Point1(masses[(11 * i) + j + 1].position), Point2(masses[(11 * (i + 1)) + j].position), Point3(masses[(11 * (i + 1)) + j + 1].position)),
 						Phong(Colour(0., 1., 0.5), LightPosition(15., 15., 10.))
 					);
 					draw(t2, view, mat4f{ 1.f });
@@ -138,21 +125,23 @@ int main(void)
     exit(EXIT_SUCCESS);
 }
 
+// Initialized and returns the list of masses. Sets positions, masses, and damping 
+// coefficients according to which scene is being displayed.
 std::vector<particle> initializeMasses(std::string scene)
 {
-	float m;
-	std::vector<particle> masses;
-	particle p;
+	float m; // Mass
+	std::vector<particle> masses; // List of masses to return
+	particle p; // Particle
 	if (scene.compare("single") == 0) {
 		m = 1.0f;
 		// Particle at the end of the spring
 		p.mass = m;
-		p.damping = -0.1f;
+		p.damping = -0.2f;
 		p.position = givr::vec3f(0.0f, 10.0f, 0.0f);
 		p.velocity = givr::vec3f(0.0f, -10.0f, 0.0f);
 		p.netforce = givr::vec3f(0.0f, 0.0f, 0.0f);
 		masses.push_back(p);
-		// Fixed invisible particle
+		// Fixed invisible particle to hold the spring
 		p.mass = 0;
 		p.position = givr::vec3f(0.0f, 20.0f, 0.0f);
 		p.velocity = givr::vec3f(0.0f, 0.0f, 0.0f);
@@ -177,7 +166,7 @@ std::vector<particle> initializeMasses(std::string scene)
 			for (int j = 0; j < 5; j++) {
 				for (int k = 0; k < 5; k++) {
 					p.mass = m;
-					p.damping = -50.0f;
+					p.damping = -5.0f;
 					p.position = givr::vec3f(-8.0f + (4 * i), 20.0f - (4 * j), 0.0f - (4 * k));
 					p.velocity = givr::vec3f(0.0f, 0.0f, 0.0f);
 					p.netforce = givr::vec3f(0.0f, 0.0f, 0.0f);
@@ -187,13 +176,13 @@ std::vector<particle> initializeMasses(std::string scene)
 		}
 	}
 	else if (scene.compare("cloth") == 0) {
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 11; j++) {
 				m = 5.0f;
-				if (i == 0) m = 0.0f; // First row of fixed masses
+				if (i == 0 && j % 5 == 0) m = 0.0f; // 3 fixed points in the top row
 				p.mass = m;
 				p.damping = -0.5f;
-				p.position = givr::vec3f(-8.0f + (4 * j), 20.0f, 0.0f - (4 * i));
+				p.position = givr::vec3f(-10.0f + (2 * j), 20.0f, 0.0f - (2 * i));
 				p.velocity = givr::vec3f(0.0f, 0.0f, 0.0f);
 				p.netforce = givr::vec3f(0.0f, 0.0f, 0.0f);
 				masses.push_back(p);
@@ -203,12 +192,14 @@ std::vector<particle> initializeMasses(std::string scene)
 	return masses;
 }
 
+// Given a list of masses, initializes and returns a list of springs connecting them.
+// Parameters are determined by which scene is being displayed.
 std::vector<spring> initializeSprings(std::vector<particle> &masses, std::string scene)
 {
-	std::vector<spring> springs;
+	std::vector<spring> springs; // List of springs
 	float maxlength;
 	float stiffness;
-	vec3f p1, p2; // Which points will provide a minimum length
+	vec3f p1, p2; // Which points will provide a maximum length for the springs
 	spring s;
 	if (scene.compare("single") == 0) {
 		stiffness = 1.0f;
@@ -221,7 +212,7 @@ std::vector<spring> initializeSprings(std::vector<particle> &masses, std::string
 		p2 = masses[1].position;
 	}
 	else if (scene.compare("cube") == 0) {
-		stiffness = 100.0f;
+		stiffness = 200.0f;
 		p1 = masses[0].position;
 		p2 = masses[31].position;
 	}
@@ -243,13 +234,57 @@ std::vector<spring> initializeSprings(std::vector<particle> &masses, std::string
 			}
 		}
 	}
+
+	// Adjust the positions of the masses in the cloth scene to allow it to hang with folds
+	if (scene.compare("cloth") == 0) {
+		for (int i = 0; i < masses.size(); i++) {
+			int d = i % 11;
+			std::cout << d << std::endl;
+			switch (d) {
+			case 0:
+				masses[i].position += vec3f(2.5f, 0.0f, 0.0f);
+				break;
+			case 1:
+				masses[i].position += vec3f(2.0f, 0.0f, 0.0f);
+				break;
+			case 2:
+				masses[i].position += vec3f(1.5f, 0.0f, 0.0f);
+				break;
+			case 3:
+				masses[i].position += vec3f(1.0f, 0.0f, 0.0f);
+				break;
+			case 4:
+				masses[i].position += vec3f(0.5f, 0.0f, 0.0f);
+				break;
+			case 5:
+				break;
+			case 6:
+				masses[i].position -= vec3f(0.5f, 0.0f, 0.0f);
+				break;
+			case 7:
+				masses[i].position -= vec3f(1.0f, 0.0f, 0.0f);
+				break;
+			case 8:
+				masses[i].position -= vec3f(1.5f, 0.0f, 0.0f);
+				break;
+			case 9:
+				masses[i].position -= vec3f(2.0f, 0.0f, 0.0f);
+				break;
+			case 10:
+				masses[i].position -= vec3f(2.5f, 0.0f, 0.0f);
+				break;
+			}
+		}
+	}
+
 	return springs;
 }
 
+// Calculates the next positions of the masses that should be rendered
 void simulation(std::vector<particle> &masses, std::vector<spring> &springs, std::string scene)
 {
-	int steps;
-	float dt;
+	int steps; // Number of calculations before the next render
+	float dt; // Change in time
 	if (scene.compare("single") == 0) {
 		steps = 16;
 		dt = 0.01f;
@@ -263,64 +298,52 @@ void simulation(std::vector<particle> &masses, std::vector<spring> &springs, std
 		dt = 0.01f;
 	}
 	else if (scene.compare("cloth") == 0) {
-		steps = 4096;
-		dt = 0.00001f;
+		steps = 64;
+		dt = 0.001f;
 	}
-	vec3f g = vec3f(0.0, -10.0, 0.0);
+
+	vec3f g = vec3f(0.0, -10.0, 0.0); // Graviy vector
+
 	for (int t = 0; t < steps; t++) {
+		// Accumulate the forces due to the springs
 		for (spring s : springs) {
 			particle p1 = masses[s.i];
 			particle p2 = masses[s.j];
 			vec3f springforce = -s.stiffness * (glm::distance(p1.position, p2.position) - s.rlength) * ((p1.position - p2.position) / glm::distance(p1.position, p2.position));
 			vec3f normforce = glm::normalize(springforce);
-			//std::cout << springforce.x << " " << springforce.y << " " << springforce.z << std::endl;
-			//std::cout << normforce.x << " " << normforce.y << " " << normforce.z << std::endl;
-			//std::cout << s.damping << " " << p1.velocity.y << " " << p2.velocity.y << " " << normforce.y << std::endl; //normforce is NAN on first loop
-			//vec3f damp = s.damping * (glm::dot((p1.velocity - p2.velocity), normforce) / glm::dot(normforce, normforce)) * normforce;
-			//vec3f damp = s.damping * p1.velocity;
-			//if (springforce.x == 0 && springforce.y == 0 && springforce.z == 0) damp = vec3f(0.0, 0.0, 0.0);
-			//std::cout << damp.x << " " << damp.y << " " << damp.z << std::endl;
-			masses[s.i].netforce += springforce;// + damp;
-			//std::cout << masses[s.j].netforce.y << " " << springforce.y << " " << damp.y << std::endl;
-			masses[s.j].netforce -= springforce;// - damp;
-			//std::cout << masses[s.i].netforce.x << " " << masses[s.i].netforce.y << " " << masses[s.i].netforce.z << std::endl;
-			
+			masses[s.i].netforce += springforce;
+			masses[s.j].netforce -= springforce;			
 		}
+		// Accumulate the forces due to gravity, collision, and damping
 		for (particle &p : masses) {
 			vec3f collisionforce = collisionForce(p, scene);
 			vec3f gravityforce = p.mass * g;
 			vec3f dampingforce = p.velocity * p.damping;
-			//std::cout << gravityforce.x << " " << gravityforce.y << " " << gravityforce.z << std::endl;
 			p.netforce += gravityforce + collisionforce + dampingforce;
-			//std::cout << p.netforce.x << " " << p.netforce.y << " " << p.netforce.z << std::endl;
 		}
+		// Update velocity and position based on forces, and reset the force accumulator
 		for (particle &p : masses) {
 			if (p.mass > 0) {
 				p.velocity += (p.netforce / p.mass) * dt;
-				//std::cout << p.netforce.x << " " << p.netforce.y << " " << p.netforce.z << std::endl; // Not accumulating any force
 				p.position += (p.velocity * dt);
-				//std::cout << p.velocity.x << " " << p.velocity.y << " " << p.velocity.z << std::endl;
-				//std::cout << p.position.y << std::endl;
 			}
 			p.netforce = vec3f(0.0, 0.0, 0.0);
 		}
 	}
 }
 
+// Calcutes any collision force. Only returns a non zero value in the cube scene
 vec3f collisionForce(particle p, std::string scene) {
 	float k = 5000; // fake spring stiffness
 	float b = 50.0f;
 	float floor = -20.0f;
-	if (scene.compare("cube") == 0 && p.position.y < floor) {
+	if (scene.compare("cube") == 0 && p.position.y < floor) { // Only add collision force if particle is below the floor
 		vec3f force = (k * vec3f(0.0, abs(floor - p.position.y), 0.0f)) - (b * p.velocity);
-		//std::cout << p.velocity.x << " " << p.velocity.y << " " << p.velocity.z << std::endl;
 		return force;
 	}
 	else {
 		return vec3f(0.0, 0.0, 0.0);
 	}
-	//if y value of position is below a certain point
-	// return -k(|h|) - bv
 }
 
 
