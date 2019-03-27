@@ -49,6 +49,8 @@ int main(void)
 	std::vector<spring> springs;
 
 	std::string scene = "single"; // Current scene being displayed
+	masses = initializeMasses(scene);
+	springs = initializeSprings(masses, scene);
 
 	// Change scene depending on key presses
 	window.keyboardCommands() 
@@ -69,11 +71,7 @@ int main(void)
 			masses = initializeMasses(scene);
 			springs = initializeSprings(masses, scene);});
 
-	// Create 2 lists of renderable objects based on the initial lists of masses and springs
-	// use updateRenderable to update positions: updateRenderable(geometry, shading, object)
-
     glClearColor(1.f, 1.f, 1.f, 1.f);
-    float u = 0.;
     window.run([&](float frameTime) {
         view.projection.updateAspectRatio(window.width(), window.height());
 
@@ -181,7 +179,7 @@ std::vector<particle> initializeMasses(std::string scene)
 				m = 5.0f;
 				if (i == 0 && j % 5 == 0) m = 0.0f; // 3 fixed points in the top row
 				p.mass = m;
-				p.damping = -0.5f;
+				p.damping = -2.f;
 				p.position = givr::vec3f(-10.0f + (2 * j), 20.0f, 0.0f - (2 * i));
 				p.velocity = givr::vec3f(0.0f, 0.0f, 0.0f);
 				p.netforce = givr::vec3f(0.0f, 0.0f, 0.0f);
@@ -239,7 +237,6 @@ std::vector<spring> initializeSprings(std::vector<particle> &masses, std::string
 	if (scene.compare("cloth") == 0) {
 		for (int i = 0; i < masses.size(); i++) {
 			int d = i % 11;
-			std::cout << d << std::endl;
 			switch (d) {
 			case 0:
 				masses[i].position += vec3f(2.5f, 0.0f, 0.0f);
@@ -345,34 +342,3 @@ vec3f collisionForce(particle p, std::string scene) {
 		return vec3f(0.0, 0.0, 0.0);
 	}
 }
-
-
-
-
-
-//--------------- unused main function stuff
-/*auto triangle = createRenderable(
-		Triangle(Point1(0.0, 1., 0.), Point2(-1., -1., 0.), Point3(1., -1., 0.)),
-		Phong(Colour(1., 1., 0.1529), LightPosition(2., 2., 15.))
-	);*/
-
-	/*auto sphere = createRenderable(
-		Sphere(Centroid(0., 1., 0.), Radius(2.0)),
-		Phong(Colour(1., 1., 0.1529), LightPosition(2., 2., 15.))
-	);
-
-	auto cylinder = createRenderable(
-		Cylinder(Point1(0., 1., 0.), Point2(0., 20., 0.), Radius(.5)),
-		Phong(Colour(1., 0., 0.), LightPosition(2., 2., 15.))
-	);*/
-
-	/*mat4f m{1.f};
-	u += frameTime;
-	auto angle = 365.f*sin(u*.01f);
-	m = rotate(m, angle, vec3f{1.0, 1.0, 0.0});
-	auto size = cos(u*0.1f);
-	m = scale(m, 15.f*vec3f{size});
-	draw(triangle, view, m);*/
-	//cylinder.set(Point2(0., 20. + u, 0.));
-	//draw(sphere, view, mat4f { 1.f });
-	//draw(cylinder, view, mat4f{ 1.f });
