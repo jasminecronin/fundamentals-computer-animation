@@ -4,7 +4,7 @@ namespace panel {
 
 bool showPanel = false;
 
-ImVec4 clear_color = ImVec4(0.1f, 0.1f, 0.1f, 1.00f);
+ImVec4 clear_color = ImVec4(1.f, 1.f, 1.f, 1.00f);
 float scale = 1.f;
 io::CurveGallery funcs;
 
