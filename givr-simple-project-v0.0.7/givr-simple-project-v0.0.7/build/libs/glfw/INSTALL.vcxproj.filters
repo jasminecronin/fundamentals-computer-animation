@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Jasmine\Documents\Classes\CPSC 587\fundamentals-computer-animation\givr-simple-project-v0.0.7\givr-simple-project-v0.0.7\build\CMakeFiles\e32890712a26a037f1efd709815016dc\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{7A5A90B1-CB4B-3EAE-8894-477739484A2F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

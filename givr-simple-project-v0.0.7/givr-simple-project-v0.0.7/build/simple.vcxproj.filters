@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Jasmine\Documents\Classes\CPSC 587\fundamentals-computer-animation\givr-simple-project-v0.0.7\givr-simple-project-v0.0.7\libs\givr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jasmine\Documents\Classes\CPSC 587\fundamentals-computer-animation\givr-simple-project-v0.0.7\givr-simple-project-v0.0.7\libs\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jasmine\Documents\Classes\CPSC 587\fundamentals-computer-animation\givr-simple-project-v0.0.7\givr-simple-project-v0.0.7\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Jasmine\Documents\Classes\CPSC 587\fundamentals-computer-animation\givr-simple-project-v0.0.7\givr-simple-project-v0.0.7\libs\givr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Jasmine\Documents\Classes\CPSC 587\fundamentals-computer-animation\givr-simple-project-v0.0.7\givr-simple-project-v0.0.7\libs\io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Jasmine\Documents\Classes\CPSC 587\fundamentals-computer-animation\givr-simple-project-v0.0.7\givr-simple-project-v0.0.7\libs\turntable_controls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Jasmine\Documents\Classes\CPSC 587\fundamentals-computer-animation\givr-simple-project-v0.0.7\givr-simple-project-v0.0.7\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{78AC396B-478C-3687-975C-F99655B702C0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4845B029-96E3-3C1C-A022-AFAD0E118017}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

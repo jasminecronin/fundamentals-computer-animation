@@ -4,10 +4,11 @@ namespace panel {
 
 bool showPanel = false;
 
-ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+ImVec4 clear_color = ImVec4(0.1f, 0.1f, 0.1f, 1.00f);
 float scale = 1.f;
 io::CurveGallery funcs;
 
+// Graph ranges here
 float xRange[2] = {-20, +20};
 float yRange[2] = {0, +10};
 
@@ -38,6 +39,7 @@ void menu() {
     // Functions
     Gallery(funcs);
 
+	// TODO something here with the GUI
     // x Min/Max
     InputFloat2("X min/max", xRange);
 

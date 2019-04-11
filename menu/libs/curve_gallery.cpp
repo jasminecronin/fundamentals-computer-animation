@@ -1,5 +1,5 @@
 #include "curve_gallery.h"
-//#include <algorithm>
+#include <algorithm>
 
 #include "imgui/curve.h"
 
