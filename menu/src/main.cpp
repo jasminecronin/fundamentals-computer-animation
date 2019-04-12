@@ -17,16 +17,25 @@ using namespace givr::geometry;
 using namespace givr::style;
 
 // TODO need to make a file reader to allow changing of parameters
+// parameters to change:
+	// number of boids
+	// avoid radius and multiplier
+	// cohesion radius and multiplier
+	// gather radius and multiplier
+	// max radius
+
+// will need to cite bird model
+// need a readme to explain user controls
 
 auto shadingStyle = Phong(Colour(0.f, 1., 0.1529), LightPosition(100.f, 100.f, 100.f));
 unsigned int N = 100; // Number of boids
 float positionRange = 30.f; // Used in randomly generating initial boid positions
 float velocityRange = 2.f;
 vec3f gravity = vec3f(0.f, -10.f, 0.f);
-float avoidRadius = 1.f;
+float avoidRadius = 4.f;
 float cohesionRadius = 5.f;
 float gatherRadius = 6.f;
-float maxRadius = 10.f;
+float maxRadius = 15.f;
 bool simMode = false;
 
 struct boid {
@@ -58,10 +67,10 @@ int main(void) {
   auto view = View(TurnTable(), Perspective());
   TurnTableControls controls(window, view.camera);
 
-  // TODO This will need to be some sort of mesh instead of just a triangle
+  auto bird = Mesh(Filename("../res/bird.obj"));
+
   auto instancedBoids = createInstancedRenderable(
-	  Triangle(Point1(vec3f(-0.5f, 0.f, 0.f)), Point2(vec3f(0.f, 0.f, 1.f)), Point3(vec3f(0.5f, 0.f, 0.f))), 
-	  shadingStyle);
+	bird, shadingStyle);
 
   srand(static_cast <unsigned> (time(0)));
 
@@ -76,7 +85,7 @@ int main(void) {
 	  //x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / velocityRange));
 	  //y = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / velocityRange));
 	  z = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / velocityRange));
-	  std::cout << z << std::endl;
+	  //std::cout << z << std::endl;
 	  b.velocity = vec3f(0.f, 0.f, z + 5);
 	  b.forces = vec3f(0.f, 0.f, 0.f);
 	  boids.push_back(b);
@@ -97,9 +106,9 @@ int main(void) {
 	);
 
   // Perhaps just have one function for all three?
-  auto avoidFunc = p::funcs.create("Avoid", 20);
-  auto cohesionFunc = p::funcs.create("Cohesion", 20);
-  auto gatherFunc = p::funcs.create("Gather", 20);
+  //auto avoidFunc = p::funcs.create("Avoid", 20);
+  //auto cohesionFunc = p::funcs.create("Cohesion", 20);
+  //auto gatherFunc = p::funcs.create("Gather", 20);
 
   window.run([&](float frameTime) {
 
@@ -147,6 +156,7 @@ int main(void) {
 						normal.x, normal.y, normal.z, 0.f, 
 						normv.x, normv.y, normv.z, 0.f,
 						b.position.x, b.position.y, b.position.z, 1.f);
+		m = scale(m, vec3f(3.f, 3.f, 3.f));
 		addInstance(instancedBoids, m);
 		//b.forces = vec3f(0.f, 0.f, 0.f); // Reset the force accumulator
 	}
