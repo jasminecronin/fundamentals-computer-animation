@@ -53,6 +53,8 @@ float velocityRange = 10.f; // Used in randomly generating initial velocities
 float minVelocity = 10.f; // Used in birb simulation
 vec3f gravity = vec3f(0.f, -10.f, 0.f);
 bool simMode = false; // Used to turn on/off simulation
+vec3f sphereCentroid = vec3f(0.f, 0.f, 40.f);
+float sphereRadius = 10.f;
 
 int main(void) {
   namespace p = panel;
@@ -71,7 +73,9 @@ int main(void) {
 	  Mesh(Filename("../res/bird.obj")),
 	  Phong(Colour(1.f, 0., 0.f), LightPosition(100.f, 100.f, 100.f)));
 
-  // Add in a sphere collision object renderable with a position
+  auto sphere = createRenderable(
+	  Sphere(Centroid(sphereCentroid), Radius(sphereRadius)), 
+	  Phong(Colour(0.f, .75f, 1.f), LightPosition(100.f, 100.f, 100.f)));
 
   parseFile(); // Read the settings file
 
@@ -139,6 +143,7 @@ int main(void) {
 	}
 
 	draw(instancedBoids, view); // Draw the list of boids
+	draw(sphere, view);
 
     io::renderDrawData();
 
@@ -175,10 +180,30 @@ void simulate(std::vector<boid> &boids) {
 				b1.forces += (coef * direction);
 			}
 
-			// check if the boid is going to collide with the sphere object
-				// ray trace the velocity vector, calculate t to check for sphere intersection
-				// get minimal positive t value
-				// if t is less than avoid radius, apply avoidCollisionForce
+			// Determine if trajectory will intersect with the sphere obstruction
+			float a = glm::dot(b1.velocity, b1.velocity);
+			float b = 2 * glm::dot(sphereCentroid - b1.position, b1.velocity);
+			float c = glm::dot(sphereCentroid - b1.position, sphereCentroid - b1.position) - (sphereRadius * sphereRadius);
+			float discriminant = (b * b) - (4.f * a * c);
+
+			// Solve for t parameter
+			float t = -1;
+			if (discriminant > 0) { // Two real solutions
+				float t1 = ((-b) + sqrt(discriminant)) / (2.f * a);
+				float t2 = ((-b) - sqrt(discriminant)) / (2.f * a);
+				t = min(abs(t1), abs(t2)); // Get value closest to 0
+			}
+			else if (discriminant < 0) {
+				// No intersection, do nothing
+			}
+			else { // One solution
+				t = (-b) / (2 * a);
+			}
+
+			float d = glm::length(t * glm::normalize(b1.velocity)); // Turn parameter t into distance to collision
+			if (d >= 0 && d < 1.f) {
+				avoidCollisionForce(b1, t);
+			}
 
 			b1.velocity += (b1.forces * (dt)); // Update velocity
 
@@ -236,12 +261,17 @@ void gatherForce(boid &b1, boid &b2) {
 }
 
 float gatherFunc(float input) {
-	return (input * 0.5f) * 1.f;
+	return (input * 0.5f) * 5.f;
 }
 
 void avoidCollisionForce(boid &b, float t) {
-	// May need to check if the boid is heading straight on to the sphere, add a tangential upwards component
-	// b.forces += (spherenorm * coeff) + (tangent * coeff)
+	vec3f v = glm::normalize(b.velocity);
+	vec3f intersection = (t * v) + b.position;
+	vec3f sphereNorm = glm::normalize(intersection - sphereCentroid);
+	vec3f tangent = b.velocity - (((glm::dot(b.velocity, sphereNorm)) / (glm::dot(sphereNorm, sphereNorm))) * sphereNorm);
+	t /= avoidRadius;
+	float coef = avoidFunc(t) * 1.2f;
+	b.forces += (sphereNorm * coef) + (glm::normalize(tangent) * coef);
 }
 
 void parseFile() {

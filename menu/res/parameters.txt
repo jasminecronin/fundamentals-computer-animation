@@ -2,6 +2,6 @@
 4 			Avoidance radius
 5 			Cohesion radius
 6 			Gather radius
-15 			Max radius
+20 			Max radius
 0.01 		Time step size (dt)
 4 			Simulation steps per render
