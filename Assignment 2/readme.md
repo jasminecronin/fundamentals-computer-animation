@@ -4,6 +4,10 @@
 
 ![cap](https://github.com/jasminecronin/fundamentals-computer-animation/blob/master/Assignment%202/cap.png)
 
+## Demo
+
+![cap](https://github.com/jasminecronin/fundamentals-computer-animation/blob/master/Assignment%202/animation.gif)
+
 ## Storyboard
 
 ![cap](https://github.com/jasminecronin/fundamentals-computer-animation/blob/master/Assignment%202/storyboard%201.png)
