@@ -1,4 +1,14 @@
-Flying Susan
+# Assignment 1 - Flying Susan
+
+## Problem
+
+![cap](https://github.com/jasminecronin/fundamentals-computer-animation/blob/master/Assignment%201/cap.png)
+
+## Demo
+
+![cap](https://github.com/jasminecronin/fundamentals-computer-animation/blob/master/Assignment%201/demo-1.gif)
+
+## Boilerplate Credits & Install Information
 
 Author: Andrew Robert Owens
 Date: January 30, 2018
@@ -15,7 +25,7 @@ The project now includes its own version of glad AND glfw that need to be
 compiled with project. This should happen automatically with any of the options
 below for installation.
 
-**INSTALL**
+### Install
 
 Option 1:
 
@@ -26,49 +36,50 @@ Option 2 (untested, but typical for cmake):
 
 1) From the project director in terminal
 
-mkdir build
-cd build
+> mkdir build
+
+> cd build
 
 #Unix makefile (Tested)
-cmake ..
+> cmake ..
 
 #Mac OSX (Tested)
-cmake -G "Xcode" ..
+> cmake -G "Xcode" ..
 
 Note: You may have to set you working director of your project manually to the directory where
 your curves and shaders folders are inorder for the executable to find them.
 
 #Microsoft Windows (Tested)
-cmake -G "Visual Studio 15" ..
-cmake -G "Visual Studio 15 Win64" ..
+> cmake -G "Visual Studio 15" ..
+
+> cmake -G "Visual Studio 15 Win64" ..
 
 
-**USAGE**
+### Usage
 
-./FlyingSusan <curve-file-path>
+> ./FlyingSusan <curve-file-path>
 
 If no arguments are passed in, the executable will default to a simple curve input. Otherwise, 
 the curve is loaded from the provided file.
 
 
-**USER INTREFACE**
+### User Interface
 
-w	move forward
-a	move left
-s	move backward
-d	move right
-q	move down
-e	move up
-
-ctrl+left-click+drag	rotate camera around focus point
-
-[	decrease move speed
-]	increase move speed
-{	decrease rotate speed
-}	increase rotate speed
-
-ctrl+s	stop
-ctrl+r	run
-esc	escape
+Key | Effect
+--- | ---
+w	| move forward
+a	| move left
+s	| move backward
+d	| move right
+q	| move down
+e	| move up
+ctrl+left-click+drag | rotate camera around focus point
+[	| decrease move speed
+]	| increase move speed
+{	| decrease rotate speed
+}	| increase rotate speed
+ctrl+s	| stop
+ctrl+r	| run
+esc	| escape
 
 
