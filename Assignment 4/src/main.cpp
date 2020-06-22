@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// A simple example showing how to use the triangle geometry
+// A simulation of flocking birds ('boids')
 //------------------------------------------------------------------------------
 
 #include "givr.h"
