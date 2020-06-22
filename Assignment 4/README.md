@@ -1,3 +1,11 @@
+# Assignment 4 - Flocking Simulation
+
+## Problem
+
+![cap](https://github.com/jasminecronin/fundamentals-computer-animation/blob/master/Assignment%204/cap.png)
+
+## Build Information
+
 How to build:
 
     cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
