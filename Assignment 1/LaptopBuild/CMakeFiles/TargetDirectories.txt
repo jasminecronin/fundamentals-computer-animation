@@ -1,6 +1,0 @@
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/curve_surfing/LaptopBuild/CMakeFiles/curve_surfing.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/curve_surfing/LaptopBuild/CMakeFiles/glad.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/curve_surfing/LaptopBuild/CMakeFiles/ALL_BUILD.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/curve_surfing/LaptopBuild/CMakeFiles/ZERO_CHECK.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/curve_surfing/LaptopBuild/external/glfw/CMakeFiles/ALL_BUILD.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/curve_surfing/LaptopBuild/external/glfw/src/CMakeFiles/glfw.dir

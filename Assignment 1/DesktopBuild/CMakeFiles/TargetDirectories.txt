@@ -1,6 +1,0 @@
-C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/CMakeFiles/curve_surfing.dir
-C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/CMakeFiles/glad.dir
-C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/CMakeFiles/ALL_BUILD.dir
-C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/CMakeFiles/ZERO_CHECK.dir
-C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/external/glfw/CMakeFiles/ALL_BUILD.dir
-C:/Users/roebu/Desktop/Assignments/University of Calgary/CPSC 587/fundamentals-computer-animation/curve_surfing/DesktopBuild/external/glfw/src/CMakeFiles/glfw.dir

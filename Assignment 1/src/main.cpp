@@ -1,7 +1,7 @@
 /**
- * @author	Andrew Robert Owens
+ * @author	Andrew Robert Owens, edited by Jasmine Cronin
  * @date January, 2019
- * @brief	CPSC 587/687 Fundamental of Computer Animation
+ * @brief	Fundamentals of Computer Animation
  * Organization: University of Calgary
  *
  * Contact:	arowens [at] ucalgary.ca
@@ -24,6 +24,8 @@
  * opengl-tutorial.org -> The first triangle (New OpenGL, great start)
  * antongerdelan.net -> shaders pipeline explained
  * ogldev.atspace.co.uk -> good resource
+ * 
+ * Any functionality not limited to the above list was added by Jasmine Cronin.
  */
 
 #include <cmath>
@@ -45,9 +47,6 @@
 #include "vec3f.h"
 
 //==================== GLOBAL VARIABLES ====================//
-/*	Put here for simplicity. Feel free to restructure into
- *	appropriate classes or abstractions (Do do as I say, not as I do do..)
- */
 
 // Drawing Programs manager
 std::vector<opengl::Program> g_program;
@@ -85,7 +84,6 @@ openGL::RenderableLine g_curveData;
 // Curve geometry for simulation
 std::string g_curveFilePath = "./curves/coaster.obj";
 std::string g_meshFilePath = "./meshes/cart.obj";
-// std::string g_curveFilePath = "";
 math::geometry::Curve g_curve;
 int32_t g_numberOfSubdivisions = 4; // Starting number of subdivisions to smooth out the curve
 
@@ -180,8 +178,6 @@ void displayFunc() {
   // and attribute config of buffers
   glBindVertexArray(g_meshData.vaoID);
   // Draw mesh, start at vertex 0, draw a # of them
-  //glDrawElements(GL_TRIANGLE_STRIP, g_meshData.indicesCount, GL_UNSIGNED_INT,
-                 //(void *)0);
   glDrawArrays(GL_TRIANGLES, 0, g_meshData.verticesCount);
 
   // ==== DRAW CURVE ===== //
@@ -196,6 +192,9 @@ void displayFunc() {
   glDrawArrays(GL_LINE_LOOP, 0, g_curveData.verticesCount);
 }
 
+//==================== START OF JASMINE CRONIN ADDITIONS ====================//
+
+// Returns the position on the curve 1 delta ahead of the current position
 math::Vec3f advancePos(math::Vec3f pos, int i, float ds) {
 	float deltaSPrime = 0.f;
 	math::Vec3f result;
@@ -226,6 +225,7 @@ math::Vec3f advancePos(math::Vec3f pos, int i, float ds) {
 	return result;
 }
 
+// Returns the position on the curve 1 delta behind the current position
 math::Vec3f retreatPos(math::Vec3f pos, int i, float ds) {
 	float deltaSPrime = 0.f;
 	math::Vec3f result;
@@ -259,6 +259,7 @@ math::Vec3f retreatPos(math::Vec3f pos, int i, float ds) {
 	return result;
 }
 
+// Updates the position of the cart
 void animate(float ds) {
   using namespace openGL;
   float t = 0.3f;
@@ -283,6 +284,8 @@ void animate(float ds) {
 
 }
 
+// Checks what mode of locomotion is assigned for the current section of the track
+// and sets variables accordingly
 void oncePerFrame() {
   if (coasterPhase.compare("lift") == 0) { 
 	  if (g_meshData.currentPosition.m_y - g_meshData.previousPosition.m_y < 0) {
@@ -311,6 +314,7 @@ void oncePerFrame() {
 
 }
 
+// Runs one step of the simulation
 void simulationStep(float deltaS) { 
 	float deltaSPrime = 0.f;
 	
@@ -343,6 +347,7 @@ void simulationStep(float deltaS) {
 
 }
 
+// Renders the parsed geometry
 bool loadMeshGeometryToGPU() {
 	// need to parse the .obj file here
 	std::vector<math::Vec3f> verts;
@@ -355,14 +360,6 @@ bool loadMeshGeometryToGPU() {
 	}
 	else {
 		parseMeshOBJ(verts);
-		/*verts.push_back({ -0.599702f, 0.192521f, 0.928188f });
-		verts.push_back({ -0.599702f, 1.201907f, 0.928188f });
-		verts.push_back({ -0.599702f, 0.192521f, -0.928188f });
-		verts.push_back({ -0.599702f, 1.201907f, -0.928188f });
-		verts.push_back({ 0.599702f, 0.192521f, 0.928188f });
-		verts.push_back({ 0.599702f, 1.201907f, 0.928188f });
-		verts.push_back({ 0.599702f, 0.192521f, -0.928188f });
-		verts.push_back({ 0.599702f, 1.201907f, -0.928188 });*/
 	}
 	
 	g_meshData.verticesCount = verts.size();
@@ -387,10 +384,10 @@ bool loadMeshGeometryToGPU() {
 	return true;
 }
 
+// Parses an OBJ file to be read by the program
 void parseMeshOBJ(std::vector<math::Vec3f> &verts) {
 	// temporary lists
 	std::vector<math::Vec3f> tempVertices;
-	//std::vector<glm::vec3> tempNormals;
 
 	std::ifstream file;
 	file.open(g_meshFilePath);
@@ -410,21 +407,10 @@ void parseMeshOBJ(std::vector<math::Vec3f> &verts) {
 			*(std::back_inserter(words)++) = item;
 		}
 
-		//std::cout << words[0] << std::endl;
-
 		// If vertex line, get vertex positions
 		if (words[0] == "v") {
 			tempVertices.push_back(math::Vec3f(stof(words[1]), stof(words[2]), stof(words[3])));
-			//verts.push_back(math::Vec3f(stof(words[1]), stof(words[2]), stof(words[3])));
 		}
-		// If texture line, get uv coords
-		/*else if (words[0] == "vt") {
-			tempUVs.push_back(glm::vec2(stof(words[1]), stof(words[2])));
-		}*/
-		// If normal line, get normals
-		/*else if (words[0] == "vn") {
-			tempNormals.push_back(glm::vec3(stof(words[1]), stof(words[2]), stof(words[3])));
-		}*/
 		// If faces line
 		else if (words[0] == "f") {
 
@@ -440,19 +426,17 @@ void parseMeshOBJ(std::vector<math::Vec3f> &verts) {
 
 				// Turn each of those numbers into indices for the temp lists
 				int vert = atoi(&data[0].at(0)) - 1;
-	//			//int uv = atoi(&data[1].at(0)) - 1;
-	//			int norm = atoi(&data[2].at(0)) - 1;
 
 				// Create the sphere
-				//std::cout << tempVertices.at(vert).m_x << " " << tempVertices.at(vert).m_y << " " << tempVertices.at(vert).m_z << std::endl;
 				verts.push_back(tempVertices.at(vert));
-	//			//normals.push_back(tempNormals.at(norm));
 			}
 		}
 	}
 
 	file.close();
 }
+
+//==================== END OF JASMINE CRONIN ADDITIONS ====================//
 
 bool loadCurveGeometryToGPU(int numberOfSubdivisions) {
   using namespace math::geometry;
@@ -465,7 +449,6 @@ bool loadCurveGeometryToGPU(int numberOfSubdivisions) {
 
     g_curve = Curve{verts};
   } else {
-    // auto curve = loadCurveFromFile(g_curveFilePath);
     auto curve = loadCurveFrom_OBJ_File(g_curveFilePath);
     if (curve.pointCount() == 0) {
       std::cerr << "curve is empty\n";
@@ -475,8 +458,6 @@ bool loadCurveGeometryToGPU(int numberOfSubdivisions) {
   }
 
   g_curve = math::geometry::cubicSubdivideCurve(g_curve, numberOfSubdivisions);
-
- // std::vector<math::Vec3f> track;
 
   glBindBuffer(GL_ARRAY_BUFFER, g_curveData.vertexBufferID);
   glBufferData(GL_ARRAY_BUFFER,
@@ -504,7 +485,6 @@ void setupVAO() {
                         0,        // stride
                         (void *)0 // array buffer offset
   );
-  //glDrawArrays(GL_TRIANGLES, 0, g_meshData.verticesCount);
 
   glBindVertexArray(g_curveData.vaoID);
 
