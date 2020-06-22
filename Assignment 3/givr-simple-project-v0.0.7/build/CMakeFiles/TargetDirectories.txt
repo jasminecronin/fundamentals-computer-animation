@@ -1,9 +1,0 @@
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/CMakeFiles/simple.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/CMakeFiles/INSTALL.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/libs/glfw/CMakeFiles/uninstall.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/libs/glfw/CMakeFiles/INSTALL.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/libs/glfw/CMakeFiles/ALL_BUILD.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/libs/glfw/src/CMakeFiles/glfw.dir
-C:/Users/Jasmine/Documents/Classes/CPSC 587/fundamentals-computer-animation/givr-simple-project-v0.0.7/givr-simple-project-v0.0.7/build/libs/glfw/src/CMakeFiles/INSTALL.dir
